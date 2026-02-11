@@ -76,3 +76,4 @@ export default function Profesionales() {  // No async
     </div>
   </div>
 );
+}
