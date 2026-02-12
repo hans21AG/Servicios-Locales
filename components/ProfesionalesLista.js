@@ -195,11 +195,21 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
                       📍 {prof.ciudad}
                     </p>
                     <p className="flex items-center gap-2">
-                      📞 <a 
-                        href={`tel:${prof.telefono?.replace(/\s/g, '')}`} 
-                        className="hover:text-blue-600 font-medium"
+                      <a 
+                        href={`tel:${prof.telefono?.replace(/\s/g, '')}`}
+                        onClick={() => {
+                          if (typeof window !== 'undefined' && window.gtag) {
+                            window.gtag('event', 'click_telefono', {
+                              profesional_nombre: prof.nombre,
+                              profesional_id: prof.id,
+                              categoria: prof.categorias?.nombre,
+                              ciudad: prof.ciudad
+                            });
+                          }
+                        }}
+                        className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
                       >
-                        {prof.telefono}
+                        📞 {prof.telefono}
                       </a>
                     </p>
                   </div>
