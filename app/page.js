@@ -92,7 +92,7 @@ export default function Home() {
           {categorias.map((cat) => (
             <Link
               key={cat.id}
-              href={`/profesionales?categoria=${cat.nombre}`}
+              href={`/${cat.slug}`}
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-8 text-center border-2 border-transparent hover:border-blue-500 group"
             >
               <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">
