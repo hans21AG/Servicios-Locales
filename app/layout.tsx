@@ -14,6 +14,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
+        {/* Google Site Verification */}
+        <meta name="google-site-verification" content="mwD5_jF9_myjX5T3q9n7xxeGQmPdAvaCFXiRXjyg_OU" />
+        
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
