@@ -49,19 +49,24 @@ export default function Home() {
 
   return (
     <>
-      {/* HEADER */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg">
+      {/* HEADER MEJORADO CON SVG */}
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">🔧</span>
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
             <div>
-              <h1 className="text-2xl font-bold">Servicios Locales</h1>
-              <p className="text-blue-100 text-sm">Ciudad Real</p>
+              <h1 className="text-xl font-bold text-gray-900">Servicios Locales</h1>
+              <p className="text-gray-500 text-xs">Ciudad Real</p>
             </div>
           </div>
           <a 
             href="#categorias" 
-            className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-blue-50 transition"
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition text-sm"
           >
             Ver Profesionales
           </a>
@@ -138,7 +143,7 @@ export default function Home() {
               <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">
                 M
               </div>
-              <div>
+              <div className="text-left">
                 <p className="text-gray-700 text-lg mb-2">
                   "Necesitaba un fontanero urgente un domingo. En 5 minutos encontré 3 opciones verificadas en Ciudad Real. Súper útil."
                 </p>
@@ -186,7 +191,7 @@ export default function Home() {
               Únete gratis al directorio y consigue más clientes locales
             </p>
             <a
-              href="mailto:contacto@servicioslocales.com?subject=Quiero unirme al directorio"
+              href="mailto:hans21ag@gmail.com?subject=Quiero unirme al directorio"
               className="inline-block px-8 py-4 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 transition"
             >
               Registrar mi negocio gratis
@@ -202,7 +207,12 @@ export default function Home() {
             {/* Columna 1 */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-3xl">🔧</span>
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
                 <h3 className="text-xl font-bold">Servicios Locales</h3>
               </div>
               <p className="text-gray-400">
