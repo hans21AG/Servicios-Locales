@@ -1,7 +1,3 @@
-✅ CÓDIGO COMPLETO CON BOTONES EMAIL + COPIAR
-Copia TODO esto y reemplaza tu archivo completo:
-
-javascript
 'use client';
 
 import { useState, useEffect } from 'react';
