@@ -1,10 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Manitas en Ciudad Real - Reparaciones y Reformas | Servicios Locales',
   description: 'Manitas profesionales en Ciudad Real para pequeñas reparaciones, montajes de muebles y reformas del hogar. Presupuestos sin compromiso.',
+  keywords: 'manitas ciudad real, reparaciones hogar ciudad real, manitas a domicilio, montaje muebles',
 };
+
 
 export default function ManitasPage() {
   return (
@@ -16,6 +19,7 @@ export default function ManitasPage() {
           <span className="text-gray-900 font-medium">Manitas</span>
         </div>
 
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center gap-3">
             🛠️ Manitas en Ciudad Real
@@ -26,6 +30,7 @@ export default function ManitasPage() {
             profesionales.
           </p>
         </div>
+
 
         <ProfesionalesLista categoriaSlug="manitas" mostrarFiltros={true} />
       </div>

@@ -1,10 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Electricistas en Ciudad Real - Instalaciones y Reparaciones | Servicios Locales',
   description: 'Electricistas profesionales autorizados en Ciudad Real. Instalaciones, averías y boletines eléctricos. Presupuestos gratis.',
+  keywords: 'electricista ciudad real, electricista urgente, instalador autorizado ciudad real, boletin electrico',
 };
+
 
 export default function ElectricistaPage() {
   return (
@@ -16,6 +19,7 @@ export default function ElectricistaPage() {
           <span className="text-gray-900 font-medium">Electricistas</span>
         </div>
 
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center gap-3">
             ⚡ Electricistas en Ciudad Real
@@ -26,6 +30,7 @@ export default function ElectricistaPage() {
             garantía en todos los trabajos.
           </p>
         </div>
+
 
         <ProfesionalesLista categoriaSlug="electricista" mostrarFiltros={true} />
       </div>

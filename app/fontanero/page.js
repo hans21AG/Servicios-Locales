@@ -1,10 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Fontaneros en Ciudad Real - Urgencias 24h | Servicios Locales',
   description: 'Encuentra fontaneros profesionales en Ciudad Real. Presupuestos gratis, servicio rápido y sin intermediarios. 9 profesionales verificados.',
+  keywords: 'fontanero ciudad real, fontaneria urgente, fontanero 24 horas ciudad real, presupuesto fontanero',
 };
+
 
 export default function FontaneroPage() {
   return (
@@ -17,6 +20,7 @@ export default function FontaneroPage() {
           <span className="text-gray-900 font-medium">Fontaneros</span>
         </div>
 
+
         {/* Header SEO */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center gap-3">
@@ -28,6 +32,7 @@ export default function FontaneroPage() {
             y sin intermediarios.
           </p>
         </div>
+
 
         {/* Listado */}
         <ProfesionalesLista categoriaSlug="fontanero" mostrarFiltros={true} />

@@ -1,10 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Cerrajeros en Ciudad Real - Urgencias 24h | Servicios Locales',
   description: 'Cerrajeros de confianza en Ciudad Real. Apertura de puertas, cambio de cerraduras y duplicado de llaves. Servicio rápido 24 horas.',
+  keywords: 'cerrajero ciudad real, cerrajero 24 horas, cerrajero urgente ciudad real, apertura puertas',
 };
+
 
 export default function CerrajeroPage() {
   return (
@@ -16,6 +19,7 @@ export default function CerrajeroPage() {
           <span className="text-gray-900 font-medium">Cerrajeros</span>
         </div>
 
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center gap-3">
             🔑 Cerrajeros en Ciudad Real
@@ -26,6 +30,7 @@ export default function CerrajeroPage() {
             rápido sin roturas.
           </p>
         </div>
+
 
         <ProfesionalesLista categoriaSlug="cerrajero" mostrarFiltros={true} />
       </div>
