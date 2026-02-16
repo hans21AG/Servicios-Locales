@@ -1,3 +1,7 @@
+✅ CÓDIGO COMPLETO CON BOTONES EMAIL + COPIAR
+Copia TODO esto y reemplaza tu archivo completo:
+
+javascript
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -190,11 +194,16 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
                       {prof.descripcion}
                     </p>
                   )}
-                  <div className="space-y-1 text-gray-600">
-                    <p className="flex items-center gap-2">
+                  
+                  {/* CONTACTO MEJORADO */}
+                  <div className="space-y-2">
+                    {/* Ciudad */}
+                    <p className="flex items-center gap-2 text-gray-600">
                       📍 {prof.ciudad}
                     </p>
-                    <p className="flex items-center gap-2">
+                    
+                    {/* Teléfono */}
+                    <div className="flex items-center gap-2">
                       <a 
                         href={`tel:${prof.telefono?.replace(/\s/g, '')}`}
                         onClick={() => {
@@ -211,7 +220,53 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
                       >
                         📞 {prof.telefono}
                       </a>
-                    </p>
+                    </div>
+
+                    {/* Botones Email y Copiar */}
+                    <div className="flex gap-3 pt-2">
+                      {/* Botón Email */}
+                      {prof.email ? (
+                        <a 
+                          href={`mailto:${prof.email}?subject=Consulta desde Servicios Locales&body=Hola ${prof.nombre},%0A%0ASoy [tu nombre] de ${prof.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
+                          onClick={() => {
+                            if (typeof window !== 'undefined' && window.gtag) {
+                              window.gtag('event', 'click_email', {
+                                profesional_nombre: prof.nombre,
+                                profesional_id: prof.id,
+                                categoria: prof.categorias?.nombre
+                              });
+                            }
+                          }}
+                          className="inline-flex items-center gap-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-semibold"
+                        >
+                          ✉️ Enviar Email
+                        </a>
+                      ) : (
+                        <button 
+                          disabled
+                          className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
+                        >
+                          ✉️ Email no disponible
+                        </button>
+                      )}
+
+                      {/* Botón Copiar */}
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(prof.telefono);
+                          alert('📋 Teléfono copiado al portapapeles');
+                          if (typeof window !== 'undefined' && window.gtag) {
+                            window.gtag('event', 'copiar_telefono', {
+                              profesional_nombre: prof.nombre,
+                              profesional_id: prof.id
+                            });
+                          }
+                        }}
+                        className="inline-flex items-center gap-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-semibold"
+                      >
+                        📋 Copiar teléfono
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
