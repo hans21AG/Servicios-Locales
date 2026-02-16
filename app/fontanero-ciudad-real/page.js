@@ -183,12 +183,28 @@ export default function FontaneroCiudadRealPage() {
             </h2>
             <p className="text-xl mb-6">
               Si buscas un <strong>fontanero en Ciudad Real con presupuesto claro y contacto directo</strong>, consulta el listado disponible y elige el profesional que mejor se adapte a tu urgencia o tipo de trabajo.
-            </p>
+ </p>
             <p className="text-lg">
               Sin comisiones. Sin intermediarios. Contacto directo con profesionales locales.
             </p>
           </div>
         </article>
+
+        {/* Servicios Relacionados */}
+        <div className="bg-gray-50 p-6 rounded mb-8">
+          <h3 className="font-bold mb-3">Servicios Relacionados</h3>
+          <div className="space-y-2">
+            <a href="/electricista-ciudad-real" className="text-blue-600 hover:underline block">
+              → Electricistas en Ciudad Real
+            </a>
+            <a href="/cerrajero-ciudad-real" className="text-blue-600 hover:underline block">
+              → Cerrajeros en Ciudad Real
+            </a>
+            <a href="/manitas-ciudad-real" className="text-blue-600 hover:underline block">
+              → Manitas en Ciudad Real
+            </a>
+          </div>
+        </div>
 
         {/* Listado Profesionales */}
         <div className="mt-12">

@@ -1,11 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Cerrajero en Ciudad Real - Apertura Sin Roturas 24h | Urgencias',
   description: 'Cerrajeros en Ciudad Real. Apertura sin roturas 24h, duplicado llaves, cambio cerraduras. Contacto directo sin comisiones. Centro, Larache, Miguelturra.',
   keywords: 'cerrajero ciudad real, cerrajero urgente ciudad real, cerrajero 24 horas ciudad real, apertura puertas ciudad real, cerrajero sin roturas',
 };
+
 
 export default function CerrajeroCiudadRealPage() {
   return (
@@ -19,6 +21,7 @@ export default function CerrajeroCiudadRealPage() {
           <span className="mx-2">/</span>
           <span className="text-gray-900 font-medium">Ciudad Real</span>
         </div>
+
 
         {/* Contenido SEO */}
         <article className="prose prose-lg max-w-none">
@@ -34,6 +37,7 @@ export default function CerrajeroCiudadRealPage() {
               Nada de intermediarios que te cobran por derivarte a un cerrajero. Aquí ves el perfil del profesional, llamas directamente, preguntas el precio y decides si te conviene. Transparencia total. Muchos cerrajeros de la zona pueden abrir tu puerta sin romper nada, duplicar llaves al momento o cambiar el bombín si hace falta. Todo sin comisiones ocultas ni formularios eternos.
             </p>
           </div>
+
 
           {/* Precios */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
@@ -84,6 +88,7 @@ export default function CerrajeroCiudadRealPage() {
             </p>
           </div>
 
+
           {/* Servicios */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -106,6 +111,7 @@ export default function CerrajeroCiudadRealPage() {
             </p>
           </div>
 
+
           {/* Por qué Servicios Locales */}
           <div className="bg-purple-50 rounded-lg p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -121,6 +127,7 @@ export default function CerrajeroCiudadRealPage() {
               Transparencia absoluta: contacto directo, precios claros antes de empezar, profesionales que conocen Ciudad Real de memoria. Tú decides con quién trabajar.
             </p>
           </div>
+
 
           {/* Zonas - CORREGIDO */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
@@ -144,6 +151,7 @@ export default function CerrajeroCiudadRealPage() {
             </p>
           </div>
 
+
           {/* FAQ */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -160,6 +168,7 @@ export default function CerrajeroCiudadRealPage() {
                 </p>
               </div>
 
+
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   ¿Hay cerrajeros de urgencia 24 horas en Ciudad Real?
@@ -168,6 +177,7 @@ export default function CerrajeroCiudadRealPage() {
                   Sí, varios profesionales del directorio ofrecen servicio de urgencia 24 horas, 7 días a la semana. Si te quedas fuera de casa a las 3 de la madrugada o un domingo por la tarde, puedes llamar directamente y muchos te atenderán. Eso sí, el servicio nocturno o festivo suele llevar un recargo.
                 </p>
               </div>
+
 
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -180,6 +190,7 @@ export default function CerrajeroCiudadRealPage() {
             </div>
           </div>
 
+
           {/* CTA Final */}
           <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-lg p-8 text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">
@@ -190,6 +201,22 @@ export default function CerrajeroCiudadRealPage() {
             </p>
           </div>
         </article>
+
+        {/* Servicios Relacionados */}
+        <div className="bg-gray-50 p-6 rounded mb-8">
+          <h3 className="font-bold mb-3">Servicios Relacionados</h3>
+          <div className="space-y-2">
+            <a href="/fontanero-ciudad-real" className="text-blue-600 hover:underline block">
+              → Fontaneros en Ciudad Real
+            </a>
+            <a href="/electricista-ciudad-real" className="text-blue-600 hover:underline block">
+              → Electricistas en Ciudad Real
+            </a>
+            <a href="/manitas-ciudad-real" className="text-blue-600 hover:underline block">
+              → Manitas en Ciudad Real
+            </a>
+          </div>
+        </div>
 
         {/* Listado Profesionales */}
         <div className="mt-12">

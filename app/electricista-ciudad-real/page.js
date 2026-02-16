@@ -1,11 +1,13 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
+
 export const metadata = {
   title: 'Electricista en Ciudad Real - Urgente 24h | Presupuesto Gratis',
   description: 'Electricistas en Ciudad Real. Servicio urgente 24h, boletines oficiales. Contacto directo sin comisiones. Centro, Larache, Miguelturra.',
   keywords: 'electricista ciudad real, electricista urgente ciudad real, electricista 24 horas ciudad real, boletin electrico ciudad real, instalador autorizado',
 };
+
 
 export default function ElectricistasCiudadRealPage() {
   return (
@@ -19,6 +21,7 @@ export default function ElectricistasCiudadRealPage() {
           <span className="mx-2">/</span>
           <span className="text-gray-900 font-medium">Ciudad Real</span>
         </div>
+
 
         {/* Contenido SEO */}
         <article className="prose prose-lg max-w-none">
@@ -34,6 +37,7 @@ export default function ElectricistasCiudadRealPage() {
               Aquí no hay empresas que cobren por ponerte en contacto. Ves el perfil del electricista, llamas directamente, pides presupuesto y decides. Simple, rápido y sin sorpresas. Muchos de nuestros profesionales ofrecen servicio urgente 24 horas para esas averías que no pueden esperar. Si necesitas reparar un cortocircuito, instalar un cuadro eléctrico o conseguir el boletín eléctrico, estás en el sitio correcto.
             </p>
           </div>
+
 
           {/* Precios */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
@@ -84,6 +88,7 @@ export default function ElectricistasCiudadRealPage() {
             </p>
           </div>
 
+
           {/* Servicios */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -106,6 +111,7 @@ export default function ElectricistasCiudadRealPage() {
             </p>
           </div>
 
+
           {/* Por qué Servicios Locales */}
           <div className="bg-yellow-50 rounded-lg p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -121,6 +127,7 @@ export default function ElectricistasCiudadRealPage() {
               Transparencia total: ves reseñas (cuando las hay), zonas donde trabajan y formas de contacto. Tú decides, sin presiones.
             </p>
           </div>
+
 
           {/* Zonas - CORREGIDO */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
@@ -144,6 +151,7 @@ export default function ElectricistasCiudadRealPage() {
             </p>
           </div>
 
+
           {/* FAQ */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -160,6 +168,7 @@ export default function ElectricistasCiudadRealPage() {
                 </p>
               </div>
 
+
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   ¿Hay electricistas 24 horas en Ciudad Real?
@@ -168,6 +177,7 @@ export default function ElectricistasCiudadRealPage() {
                   Sí, varios de los profesionales del directorio ofrecen atención urgente las 24 horas. Útil si salta el diferencial de madrugada o si tienes una avería que te deja sin luz un sábado por la noche. Llama directamente para confirmar disponibilidad y precio del servicio nocturno.
                 </p>
               </div>
+
 
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -180,6 +190,7 @@ export default function ElectricistasCiudadRealPage() {
             </div>
           </div>
 
+
           {/* CTA Final */}
           <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white rounded-lg p-8 text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">
@@ -190,6 +201,22 @@ export default function ElectricistasCiudadRealPage() {
             </p>
           </div>
         </article>
+
+        {/* Servicios Relacionados */}
+        <div className="bg-gray-50 p-6 rounded mb-8">
+          <h3 className="font-bold mb-3">Servicios Relacionados</h3>
+          <div className="space-y-2">
+            <a href="/fontanero-ciudad-real" className="text-blue-600 hover:underline block">
+              → Fontaneros en Ciudad Real
+            </a>
+            <a href="/cerrajero-ciudad-real" className="text-blue-600 hover:underline block">
+              → Cerrajeros en Ciudad Real
+            </a>
+            <a href="/manitas-ciudad-real" className="text-blue-600 hover:underline block">
+              → Manitas en Ciudad Real
+            </a>
+          </div>
+        </div>
 
         {/* Listado Profesionales */}
         <div className="mt-12">
