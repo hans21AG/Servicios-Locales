@@ -1,8 +1,140 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
+// ========== COMPONENTE TARJETA CON ANIMACIONES ==========
+function TarjetaProfesional({ profesional, index }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        bg-white rounded-xl shadow-md border border-gray-200 p-6
+        transform transition-all duration-700 ease-out
+        hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1
+        ${isVisible 
+          ? 'opacity-100 scale-100 translate-y-0' 
+          : 'opacity-0 scale-95 translate-y-8'
+        }
+      `}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="flex items-start gap-4">
+        {/* Logo animado */}
+        <div className="text-4xl transition-transform duration-300 hover:rotate-12 hover:scale-110">
+          {profesional.categorias?.icono || '👷'}
+        </div>
+        
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            {profesional.nombre}
+          </h2>
+          <p className="text-blue-600 font-semibold mb-3">
+            {profesional.categorias?.nombre || 'Sin categoría'}
+          </p>
+          {profesional.descripcion && (
+            <p className="text-gray-600 mb-3 text-sm">
+              {profesional.descripcion}
+            </p>
+          )}
+          
+          {/* CONTACTO */}
+          <div className="space-y-2">
+            {/* Ciudad */}
+            <p className="flex items-center gap-2 text-gray-600">
+              📍 {profesional.ciudad}
+            </p>
+            
+            {/* Teléfono */}
+            <div className="flex items-center gap-2">
+              <a 
+                href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'click_telefono', {
+                      profesional_nombre: profesional.nombre,
+                      profesional_id: profesional.id,
+                      categoria: profesional.categorias?.nombre,
+                      ciudad: profesional.ciudad
+                    });
+                  }
+                }}
+                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+              >
+                📞 {profesional.telefono}
+              </a>
+            </div>
+
+            {/* Botones Email y Copiar */}
+            <div className="flex gap-3 pt-2">
+              {/* Botón Email */}
+              {profesional.email ? (
+                <a 
+                  href={`mailto:${profesional.email}?subject=Consulta desde Servicios Locales&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && window.gtag) {
+                      window.gtag('event', 'click_email', {
+                        profesional_nombre: profesional.nombre,
+                        profesional_id: profesional.id,
+                        categoria: profesional.categorias?.nombre
+                      });
+                    }
+                  }}
+                  className="inline-flex items-center gap-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold"
+                >
+                  ✉️ Enviar Email
+                </a>
+              ) : (
+                <button 
+                  disabled
+                  className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
+                >
+                  ✉️ Email no disponible
+                </button>
+              )}
+
+              {/* Botón Copiar */}
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(profesional.telefono);
+                  alert('📋 Teléfono copiado al portapapeles');
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'copiar_telefono', {
+                      profesional_nombre: profesional.nombre,
+                      profesional_id: profesional.id
+                    });
+                  }
+                }}
+                className="inline-flex items-center gap-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
+              >
+                📋 Copiar teléfono
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ========== COMPONENTE PRINCIPAL ==========
 export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltros = true }) {
   const [profesionales, setProfesionales] = useState([]);
   const [profesionalesFiltrados, setProfesionalesFiltrados] = useState([]);
@@ -162,7 +294,7 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
         </div>
       )}
 
-      {/* Listado Profesionales */}
+      {/* Listado Profesionales CON ANIMACIONES */}
       {profesionalesFiltrados.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm p-12 text-center">
           <p className="text-gray-500 text-lg">
@@ -171,102 +303,12 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
         </div>
       ) : (
         <div className="space-y-4">
-          {profesionalesFiltrados.map((prof) => (
-            <div 
+          {profesionalesFiltrados.map((prof, index) => (
+            <TarjetaProfesional 
               key={prof.id} 
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200"
-            >
-              <div className="flex items-start gap-4">
-                <div className="text-4xl">{prof.categorias?.icono || '👷'}</div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    {prof.nombre}
-                  </h2>
-                  <p className="text-blue-600 font-semibold mb-3">
-                    {prof.categorias?.nombre || 'Sin categoría'}
-                  </p>
-                  {prof.descripcion && (
-                    <p className="text-gray-600 mb-3 text-sm">
-                      {prof.descripcion}
-                    </p>
-                  )}
-                  
-                  {/* CONTACTO MEJORADO */}
-                  <div className="space-y-2">
-                    {/* Ciudad */}
-                    <p className="flex items-center gap-2 text-gray-600">
-                      📍 {prof.ciudad}
-                    </p>
-                    
-                    {/* Teléfono */}
-                    <div className="flex items-center gap-2">
-                      <a 
-                        href={`tel:${prof.telefono?.replace(/\s/g, '')}`}
-                        onClick={() => {
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'click_telefono', {
-                              profesional_nombre: prof.nombre,
-                              profesional_id: prof.id,
-                              categoria: prof.categorias?.nombre,
-                              ciudad: prof.ciudad
-                            });
-                          }
-                        }}
-                        className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
-                      >
-                        📞 {prof.telefono}
-                      </a>
-                    </div>
-
-                    {/* Botones Email y Copiar */}
-                    <div className="flex gap-3 pt-2">
-                      {/* Botón Email */}
-                      {prof.email ? (
-                        <a 
-                          href={`mailto:${prof.email}?subject=Consulta desde Servicios Locales&body=Hola ${prof.nombre},%0A%0ASoy [tu nombre] de ${prof.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
-                          onClick={() => {
-                            if (typeof window !== 'undefined' && window.gtag) {
-                              window.gtag('event', 'click_email', {
-                                profesional_nombre: prof.nombre,
-                                profesional_id: prof.id,
-                                categoria: prof.categorias?.nombre
-                              });
-                            }
-                          }}
-                          className="inline-flex items-center gap-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-semibold"
-                        >
-                          ✉️ Enviar Email
-                        </a>
-                      ) : (
-                        <button 
-                          disabled
-                          className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
-                        >
-                          ✉️ Email no disponible
-                        </button>
-                      )}
-
-                      {/* Botón Copiar */}
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(prof.telefono);
-                          alert('📋 Teléfono copiado al portapapeles');
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'copiar_telefono', {
-                              profesional_nombre: prof.nombre,
-                              profesional_id: prof.id
-                            });
-                          }
-                        }}
-                        className="inline-flex items-center gap-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-semibold"
-                      >
-                        📋 Copiar teléfono
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              profesional={prof} 
+              index={index}
+            />
           ))}
         </div>
       )}
