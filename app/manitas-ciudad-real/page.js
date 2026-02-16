@@ -1,7 +1,3 @@
-¡Perfecto Hans! El contenido del artículo de manitas está muy bien redactado con tu tono cercano y directo. Ahora te paso el código completo de Next.js listo para copiar y pegar:
-
-📄 Archivo: app/manitas-ciudad-real/page.js
-jsx
 import ProfesionalesLista from '@/components/ProfesionalesLista'
 
 export const metadata = {
