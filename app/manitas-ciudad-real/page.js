@@ -235,7 +235,7 @@ export default function ManitasCiudadReal() {
         </div>
 
         <h2 className="text-3xl font-bold mb-6">Manitas Disponibles en Ciudad Real</h2>
-        <ProfesionalesLista categoria="manitas" />
+        <ProfesionalesLista categoriaSlug="manitas" />
 
         <p className="text-sm text-gray-500 mt-8">
           Última actualización: 16 de febrero de 2026
