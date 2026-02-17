@@ -6,6 +6,8 @@ export const metadata = {
   description: 'Encuentra fontaneros, electricistas, cerrajeros y manitas en Ciudad Real. Contacto directo, sin comisiones. 28 profesionales verificados.',
   icons: {
     icon: '/cercapro-icon.png',
+    shortcut: '/cercapro-icon.png',
+    apple: '/cercapro-icon.png',
   },
 }
 
@@ -46,3 +48,4 @@ export default function RootLayout({
     </html>
   )
 }
+
