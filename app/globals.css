@@ -1,3 +1,14 @@
+/* ========== CERCAPRO BRAND COLORS ========== */
+:root {
+  --primary: #1E3A8A;           /* Azul oscuro - Headers, CTAs, links */
+  --accent: #F97316;            /* Naranja - Accents, botones secundarios */
+  --background: #F9FAFB;        /* Background claro */
+  --foreground: #111827;        /* Texto principal */
+  --muted-foreground: #4B5563;  /* Texto secundario */
+  --success: #10B981;           /* Verde - Verificado, disponible */
+  --destructive: #EF4444;       /* Rojo - Urgencias, alertas */
+}
+/* ========================================== */
 @import "tailwindcss";
 
 :root {

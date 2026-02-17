@@ -2,8 +2,11 @@ import './globals.css'
 import Script from 'next/script'
 
 export const metadata = {
-  title: 'Servicios Locales - Encuentra Profesionales en Ciudad Real',
-  description: 'Directorio de fontaneros, electricistas, cerrajeros y manitas en Ciudad Real',
+  title: 'CercaPro - Tu profesional de confianza, a la vuelta de la esquina',
+  description: 'Encuentra fontaneros, electricistas, cerrajeros y manitas en Ciudad Real. Contacto directo, sin comisiones. 28 profesionales verificados.',
+  icons: {
+    icon: '/cercapro-icon.png',
+  },
 }
 
 export default function RootLayout({
