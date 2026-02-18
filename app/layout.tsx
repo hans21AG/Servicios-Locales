@@ -1,6 +1,6 @@
 import './globals.css'
 import Script from 'next/script'
-import Navbar from '../components/Navbar'
+import NavbarCercaPro from '@/components/NavbarCercaPro'
 
 export const metadata = {
   title: 'CercaPro - Tu profesional de confianza, a la vuelta de la esquina',
@@ -46,7 +46,7 @@ export default function RootLayout({
         )}
       </head>
       <body>
-        <Navbar />
+        <NavbarCercaPro />
         {children}
       </body>
     </html>

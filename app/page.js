@@ -42,78 +42,54 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#1E3A8A]"></div>
       </div>
     );
   }
 
   return (
     <>
-      {/* HEADER MEJORADO CON SVG */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Servicios Locales</h1>
-              <p className="text-gray-500 text-xs">Ciudad Real</p>
-            </div>
-          </div>
-          <a 
-            href="#categorias" 
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition text-sm"
-          >
-            Ver Profesionales
-          </a>
-        </div>
-      </header>
-
-      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <main className="min-h-screen bg-gradient-to-b from-[#F9FAFB] to-white">
         {/* HERO SECTION */}
         <div className="max-w-6xl mx-auto px-6 py-16 text-center">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-5xl font-bold text-[#111827] mb-6">
             Encuentra Profesionales de Confianza en Ciudad Real
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-[#4B5563] mb-8">
             Conecta con fontaneros, electricistas, cerrajeros y manitas verificados en tu zona
           </p>
 
           {/* TRUST BADGES */}
-          <div className="flex items-center justify-center gap-6 text-sm text-gray-600 mb-12">
+          <div className="flex items-center justify-center gap-6 text-sm text-[#4B5563] mb-12">
             <div className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✓</span>
+              <span className="text-[#10B981] text-xl">✓</span>
               <span className="font-medium">Verificados</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✓</span>
+              <span className="text-[#10B981] text-xl">✓</span>
               <span className="font-medium">100% Gratis</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✓</span>
+              <span className="text-[#10B981] text-xl">✓</span>
               <span className="font-medium">Local Ciudad Real</span>
             </div>
           </div>
 
           {/* STATS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="text-4xl font-bold text-[#1E3A8A] mb-2">
                 {Object.values(profesionalesPorCategoria).reduce((a, b) => a + b, 0)}
               </div>
-              <div className="text-gray-600">Profesionales Verificados</div>
+              <div className="text-[#4B5563]">Profesionales Verificados</div>
             </div>
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">{categorias.length}</div>
-              <div className="text-gray-600">Categorías de Servicio</div>
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="text-4xl font-bold text-[#1E3A8A] mb-2">{categorias.length}</div>
+              <div className="text-[#4B5563]">Categorías de Servicio</div>
             </div>
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">24h</div>
-              <div className="text-gray-600">Respuesta Promedio</div>
+            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+              <div className="text-4xl font-bold text-[#1E3A8A] mb-2">24h</div>
+              <div className="text-[#4B5563]">Respuesta Promedio</div>
             </div>
           </div>
 
@@ -121,15 +97,15 @@ export default function Home() {
           <div id="categorias" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {categorias.map((cat) => (
               <Link key={cat.id} href={`/${cat.slug}`}>
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all p-8 cursor-pointer border-2 border-transparent hover:border-blue-500 group">
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all p-8 cursor-pointer border-2 border-transparent hover:border-[#F97316] group">
                   <div className="text-6xl mb-4">{cat.icono}</div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition">
+                  <h3 className="text-2xl font-bold text-[#111827] mb-2 group-hover:text-[#1E3A8A] transition">
                     {cat.nombre}
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-[#4B5563] mb-4">
                     {profesionalesPorCategoria[cat.id] || 0} profesionales
                   </p>
-                  <div className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg group-hover:bg-blue-700 transition">
+                  <div className="inline-block px-4 py-2 bg-[#1E3A8A] text-white rounded-lg group-hover:bg-[#F97316] transition">
                     Ver {cat.nombre}s →
                   </div>
                 </div>
@@ -138,44 +114,134 @@ export default function Home() {
           </div>
 
           {/* TESTIMONIO */}
-          <div className="bg-blue-50 rounded-2xl p-8 mt-12 border border-blue-100 max-w-3xl mx-auto">
+          <div className="bg-[#F9FAFB] rounded-2xl p-8 mt-12 border border-gray-200 max-w-3xl mx-auto">
             <div className="flex items-start gap-4">
-              <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">
+              <div className="bg-[#1E3A8A] text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">
                 M
               </div>
               <div className="text-left">
-                <p className="text-gray-700 text-lg mb-2">
+                <p className="text-[#111827] text-lg mb-2">
                   "Necesitaba un fontanero urgente un domingo. En 5 minutos encontré 3 opciones verificadas en Ciudad Real. Súper útil."
                 </p>
-                <p className="text-gray-600 text-sm">
+                <p className="text-[#4B5563] text-sm">
                   <strong>María G.</strong> - Miguelturra
                 </p>
               </div>
             </div>
           </div>
 
+
+          {/* GUÍAS POR CIUDAD */}
+          <div className="mt-20">
+            <h2 className="text-4xl font-bold text-[#111827] mb-4 text-center">📖 Guías por Ciudad</h2>
+            <p className="text-xl text-[#4B5563] text-center mb-12 max-w-3xl mx-auto">
+              Información completa sobre precios, zonas de cobertura y preguntas frecuentes
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Guía Fontaneros */}
+              <Link href="/fontanero-ciudad-real">
+                <div className="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-[#F97316] transition-all cursor-pointer group">
+                  <div className="flex items-start gap-4">
+                    <div className="text-5xl">🔧</div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-[#111827] mb-2 group-hover:text-[#1E3A8A] transition">
+                        Fontaneros en Ciudad Real
+                      </h3>
+                      <p className="text-[#4B5563] mb-4">
+                        Precios orientativos, servicios más solicitados, zonas de cobertura y preguntas frecuentes sobre fontanería.
+                      </p>
+                      <div className="text-[#F97316] font-semibold group-hover:underline">
+                        Leer guía completa →
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Guía Electricistas */}
+              <Link href="/electricista-ciudad-real">
+                <div className="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-[#F97316] transition-all cursor-pointer group">
+                  <div className="flex items-start gap-4">
+                    <div className="text-5xl">⚡</div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-[#111827] mb-2 group-hover:text-[#1E3A8A] transition">
+                        Electricistas en Ciudad Real
+                      </h3>
+                      <p className="text-[#4B5563] mb-4">
+                        Precios orientativos, servicios eléctricos, zonas de cobertura y preguntas frecuentes sobre electricidad.
+                      </p>
+                      <div className="text-[#F97316] font-semibold group-hover:underline">
+                        Leer guía completa →
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Guía Cerrajeros */}
+              <Link href="/cerrajero-ciudad-real">
+                <div className="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-[#F97316] transition-all cursor-pointer group">
+                  <div className="flex items-start gap-4">
+                    <div className="text-5xl">🔑</div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-[#111827] mb-2 group-hover:text-[#1E3A8A] transition">
+                        Cerrajeros en Ciudad Real
+                      </h3>
+                      <p className="text-[#4B5563] mb-4">
+                        Precios orientativos, servicios de cerrajería, zonas de cobertura y preguntas frecuentes sobre cerraduras.
+                      </p>
+                      <div className="text-[#F97316] font-semibold group-hover:underline">
+                        Leer guía completa →
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Guía Manitas */}
+              <Link href="/manitas-ciudad-real">
+                <div className="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-[#F97316] transition-all cursor-pointer group">
+                  <div className="flex items-start gap-4">
+                    <div className="text-5xl">🔨</div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-[#111827] mb-2 group-hover:text-[#1E3A8A] transition">
+                        Manitas en Ciudad Real
+                      </h3>
+                      <p className="text-[#4B5563] mb-4">
+                        Precios orientativos, servicios del hogar, zonas de cobertura y preguntas frecuentes sobre reparaciones.
+                      </p>
+                      <div className="text-[#F97316] font-semibold group-hover:underline">
+                        Leer guía completa →
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
           {/* CÓMO FUNCIONA */}
           <div className="mt-20">
-            <h2 className="text-4xl font-bold text-gray-900 mb-12">¿Cómo funciona?</h2>
+            <h2 className="text-4xl font-bold text-[#111827] mb-12">¿Cómo funciona?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="bg-white rounded-xl shadow-md p-8 border border-gray-100">
                 <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">1. Busca</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-[#111827] mb-3">1. Busca</h3>
+                <p className="text-[#4B5563]">
                   Selecciona el tipo de profesional que necesitas
                 </p>
               </div>
-              <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="bg-white rounded-xl shadow-md p-8 border border-gray-100">
                 <div className="text-5xl mb-4">📱</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">2. Contacta</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-[#111827] mb-3">2. Contacta</h3>
+                <p className="text-[#4B5563]">
                   Llama directamente al profesional que prefieras
                 </p>
               </div>
-              <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="bg-white rounded-xl shadow-md p-8 border border-gray-100">
                 <div className="text-5xl mb-4">✅</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">3. Resuelve</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-[#111827] mb-3">3. Resuelve</h3>
+                <p className="text-[#4B5563]">
                   Soluciona tu problema con un profesional de confianza
                 </p>
               </div>
@@ -183,16 +249,16 @@ export default function Home() {
           </div>
 
           {/* CTA PROFESIONALES */}
-          <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-12 mt-20 border border-green-200">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="bg-gradient-to-r from-[#1E3A8A] to-[#F97316] rounded-2xl p-12 mt-20 text-white">
+            <h2 className="text-3xl font-bold mb-4">
               ¿Eres profesional?
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl mb-8 text-white/90">
               Únete gratis al directorio y consigue más clientes locales
             </p>
             <a
               href="mailto:hans21ag@gmail.com?subject=Quiero unirme al directorio"
-              className="inline-block px-8 py-4 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 transition"
+              className="inline-block px-8 py-4 bg-white text-[#1E3A8A] text-lg font-semibold rounded-lg hover:bg-[#F9FAFB] transition"
             >
               Registrar mi negocio gratis
             </a>
@@ -201,50 +267,45 @@ export default function Home() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-gray-900 text-white mt-20 py-12">
+      <footer className="bg-[#111827] text-white mt-20 py-12">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Columna 1 */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold">Servicios Locales</h3>
-              </div>
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <span className="text-[#1E3A8A]">Cerca</span>
+                <span className="text-[#F97316]">Pro</span>
+              </h3>
               <p className="text-gray-400">
                 Directorio de profesionales verificados en Ciudad Real.
               </p>
             </div>
-            
+
             {/* Columna 2 */}
             <div>
               <h4 className="font-bold mb-4">Categorías</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/fontanero" className="hover:text-white transition">Fontaneros</a></li>
-                <li><a href="/electricista" className="hover:text-white transition">Electricistas</a></li>
-                <li><a href="/cerrajero" className="hover:text-white transition">Cerrajeros</a></li>
-                <li><a href="/manitas" className="hover:text-white transition">Manitas</a></li>
+                <li><a href="/fontanero" className="hover:text-[#F97316] transition">Fontaneros</a></li>
+                <li><a href="/electricista" className="hover:text-[#F97316] transition">Electricistas</a></li>
+                <li><a href="/cerrajero" className="hover:text-[#F97316] transition">Cerrajeros</a></li>
+                <li><a href="/manitas" className="hover:text-[#F97316] transition">Manitas</a></li>
               </ul>
             </div>
-            
+
             {/* Columna 3 */}
             <div>
               <h4 className="font-bold mb-4">Contacto</h4>
               <p className="text-gray-400 mb-2">
                 ¿Falta tu profesional favorito?
               </p>
-              <a href="mailto:hans21ag@gmail.com" className="text-blue-400 hover:text-blue-300 transition">
-                contacto@servicios-locales.com
+              <a href="mailto:hans21ag@gmail.com" className="text-[#F97316] hover:text-[#F97316]/80 transition">
+                hans21ag@gmail.com
               </a>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-            © 2026 Servicios Locales. Ciudad Real, España.
+            © 2026 CercaPro. Ciudad Real, España.
           </div>
         </div>
       </footer>

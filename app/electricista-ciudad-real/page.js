@@ -1,226 +1,228 @@
 import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
-
 export const metadata = {
   title: 'Electricista en Ciudad Real - Urgente 24h | Presupuesto Gratis',
-  description: 'Electricistas en Ciudad Real. Servicio urgente 24h, boletines oficiales. Contacto directo sin comisiones. Centro, Larache, Miguelturra.',
-  keywords: 'electricista ciudad real, electricista urgente ciudad real, electricista 24 horas ciudad real, boletin electrico ciudad real, instalador autorizado',
+  description: 'Electricistas en Ciudad Real. Servicio urgente 24h, presupuesto gratis. Contacto directo sin comisiones. Centro, Larache, Miguelturra.',
+  keywords: 'electricista ciudad real, electricista urgente ciudad real, electricista 24 horas ciudad real, averías eléctricas ciudad real, presupuesto gratis',
 };
 
-
-export default function ElectricistasCiudadRealPage() {
+export default function ElectricistaCiudadRealPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#F9FAFB] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
-        <div className="mb-6 text-sm text-gray-600">
-          <Link href="/" className="hover:text-blue-600">Inicio</Link>
+        <div className="mb-6 text-sm text-[#4B5563]">
+          <Link href="/" className="hover:text-[#F97316] transition-colors">Inicio</Link>
           <span className="mx-2">/</span>
-          <Link href="/electricista" className="hover:text-blue-600">Electricistas</Link>
+          <Link href="/electricista" className="hover:text-[#F97316] transition-colors">Electricistas</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 font-medium">Ciudad Real</span>
+          <span className="text-[#111827] font-medium">Ciudad Real</span>
         </div>
-
 
         {/* Contenido SEO */}
         <article className="prose prose-lg max-w-none">
           {/* Header */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Electricista en Ciudad Real: Servicio Urgente 24 Horas y Presupuesto Sin Comisiones
+          <div className="bg-white rounded-lg shadow-sm p-8 mb-8 border border-gray-100">
+            <h1 className="text-4xl font-bold text-[#111827] mb-4">
+              Electricista en Ciudad Real: Servicio Urgente 24 Horas y Presupuesto Gratis
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              ¿Se ha ido la luz en casa y no sabes por qué? ¿Salta el diferencial cada dos por tres? Cuando necesitas un <strong>electricista en Ciudad Real</strong> de confianza, no quieres perder tiempo rellenando formularios ni pagar comisiones a intermediarios. En Servicios Locales conectamos directamente con profesionales que trabajan en el Centro histórico, Larache, Los Ángeles, El Torreón, Barrio Pío XII, Miguelturra y Poblete.
+            <p className="text-xl text-[#4B5563] leading-relaxed">
+              ¿Necesitas un <strong className="text-[#1E3A8A]">electricista en Ciudad Real</strong> de forma urgente? Ya sea por un cortocircuito, un cuadro eléctrico que salta constantemente o una instalación nueva, encontrar un profesional de confianza es esencial. En CercaPro puedes contactar directamente con electricistas locales que trabajan en zonas como el Centro, Larache, Los Ángeles, El Torreón o Miguelturra.
             </p>
-            <p className="text-lg text-gray-600 mt-4">
-              Aquí no hay empresas que cobren por ponerte en contacto. Ves el perfil del electricista, llamas directamente, pides presupuesto y decides. Simple, rápido y sin sorpresas. Muchos de nuestros profesionales ofrecen servicio urgente 24 horas para esas averías que no pueden esperar. Si necesitas reparar un cortocircuito, instalar un cuadro eléctrico o conseguir el boletín eléctrico, estás en el sitio correcto.
+            <p className="text-lg text-[#4B5563] mt-4">
+              Sin intermediarios, sin comisiones ocultas. Llama, pide presupuesto y resuelve la avería eléctrica lo antes posible. Si buscas un <strong className="text-[#1E3A8A]">electricista urgente en Ciudad Real</strong> o quieres comparar precios antes de contratar, aquí encontrarás la información que necesitas.
             </p>
           </div>
 
-
           {/* Precios */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              💶 ¿Cuánto Cuesta un Electricista en Ciudad Real?
+          <div className="bg-white rounded-lg shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 className="text-3xl font-bold text-[#111827] mb-6">
+              💶 Precios de un Electricista en Ciudad Real (Orientativos)
             </h2>
-            <p className="text-gray-600 mb-6">
-              Los precios varían según el tipo de trabajo, pero aquí tienes una referencia orientativa de lo que suelen cobrar los electricistas en la zona:
+            <p className="text-[#4B5563] mb-6">
+              Los rangos de precio habituales para trabajos eléctricos domésticos en la zona:
             </p>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-3 px-4 font-bold">Servicio</th>
-                    <th className="text-left py-3 px-4 font-bold">Precio aproximado</th>
+                  <tr className="border-b-2 border-[#1E3A8A]">
+                    <th className="text-left py-3 px-4 font-bold text-[#111827]">Servicio</th>
+                    <th className="text-left py-3 px-4 font-bold text-[#111827]">Precio aproximado</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4">Cambio de enchufe o interruptor</td>
-                    <td className="py-3 px-4 font-semibold">40€ – 70€</td>
+                    <td className="py-3 px-4 text-[#4B5563]">Reparación de enchufe o interruptor</td>
+                    <td className="py-3 px-4 font-semibold text-[#1E3A8A]">40€ – 70€</td>
                   </tr>
                   <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4">Reparación de avería eléctrica puntual</td>
-                    <td className="py-3 px-4 font-semibold">60€ – 120€</td>
+                    <td className="py-3 px-4 text-[#4B5563]">Revisión de cuadro eléctrico</td>
+                    <td className="py-3 px-4 font-semibold text-[#1E3A8A]">60€ – 100€</td>
                   </tr>
                   <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4">Sustitución o revisión de cuadro eléctrico</td>
-                    <td className="py-3 px-4 font-semibold">150€ – 300€</td>
+                    <td className="py-3 px-4 text-[#4B5563]">Instalación de punto de luz</td>
+                    <td className="py-3 px-4 font-semibold text-[#1E3A8A]">50€ – 90€</td>
                   </tr>
                   <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4">Instalación de puntos de luz</td>
-                    <td className="py-3 px-4 font-semibold">70€ – 150€</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4">Boletín eléctrico (certificado)</td>
-                    <td className="py-3 px-4 font-semibold">80€ – 150€</td>
+                    <td className="py-3 px-4 text-[#4B5563]">Cambio de cuadro eléctrico</td>
+                    <td className="py-3 px-4 font-semibold text-[#1E3A8A]">200€ – 400€</td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-4">Servicio urgente 24 horas</td>
-                    <td className="py-3 px-4 font-semibold text-red-600">+30€ – 60€</td>
+                    <td className="py-3 px-4 text-[#4B5563]">Servicio urgente 24 horas</td>
+                    <td className="py-3 px-4 font-semibold text-[#F97316]">+40€ – 60€</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p className="text-sm text-gray-500 mt-4">
-              Estos precios son aproximados. Lo mejor es que contactes directamente con el electricista para que valore tu caso concreto. Sin intermediarios, sin comisiones por medio, sin letra pequeña.
+            <p className="text-sm text-[#4B5563] mt-4">
+              El precio final dependerá de la complejidad del trabajo, materiales necesarios y si se trata de un servicio de urgencia fuera de horario. Para un <strong className="text-[#1E3A8A]">electricista 24 horas en Ciudad Real</strong>, suele aplicarse un recargo.
             </p>
           </div>
-
 
           {/* Servicios */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              ⚡ Servicios Más Solicitados
+          <div className="bg-white rounded-lg shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 className="text-3xl font-bold text-[#111827] mb-6">
+              ⚡ Servicios de Electricidad Más Solicitados
             </h2>
-            <p className="text-gray-600 mb-4">
-              Los electricistas de Ciudad Real que encontrarás en el directorio ofrecen estos trabajos:
+            <p className="text-[#4B5563] mb-4">
+              Los electricistas en Ciudad Real suelen realizar desde pequeñas reparaciones hasta instalaciones completas:
             </p>
-            <ul className="space-y-2 text-gray-700">
-              <li>✓ Reparación de averías eléctricas en viviendas y locales</li>
-              <li>✓ Cortocircuitos y saltos de diferencial (ese maldito "clac" que te deja a oscuras)</li>
-              <li>✓ Instalación y renovación de cuadros eléctricos</li>
-              <li>✓ Instalación de iluminación interior y exterior (salón, jardín, portal...)</li>
-              <li>✓ Montaje de lámparas y focos LED (para ahorrar en la factura)</li>
-              <li>✓ Certificados eléctricos (boletín) obligatorios para alquilar o vender</li>
-              <li>✓ Instalaciones eléctricas en reformas completas</li>
+            <ul className="space-y-2 text-[#4B5563]">
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Averías eléctricas y cortocircuitos
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Instalación de enchufes e interruptores
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Cambio de cuadro eléctrico
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Instalación de iluminación LED
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Revisión de instalación eléctrica
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Instalación de sistemas domóticos
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#10B981]">✓</span> Boletín eléctrico y certificados
+              </li>
             </ul>
-            <p className="text-gray-600 mt-4">
-              Si necesitas algo más específico, muchos electricistas también hacen domótica básica, instalación de videoporteros o carga de coches eléctricos.
+            <p className="text-[#4B5563] mt-4">
+              Muchos buscan "<strong className="text-[#1E3A8A]">electricista urgente Ciudad Real</strong>" cuando hay un corte de luz o el diferencial salta constantemente.
             </p>
           </div>
 
-
-          {/* Por qué Servicios Locales */}
-          <div className="bg-yellow-50 rounded-lg p-8 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              ✅ Por Qué Usar Servicios Locales (Y No Otras Plataformas)
+          {/* Por qué usar CercaPro */}
+          <div className="bg-gradient-to-br from-[#F9FAFB] to-white border-2 border-[#1E3A8A] rounded-lg p-8 mb-8">
+            <h2 className="text-3xl font-bold text-[#111827] mb-6">
+              ✅ Por Qué Usar CercaPro para Encontrar Electricista
             </h2>
-            <p className="text-gray-700 mb-4">
-              Porque aquí el contacto es directo. Nada de rellenar formularios para que te llamen tres empresas distintas y luego cobrar comisión al profesional que contrates. Nosotros te mostramos los perfiles, tú eliges y contactas. El electricista no paga nada por aparecer en el directorio, así que tampoco tiene que "recuperar" esa comisión subiéndote el precio.
+            <p className="text-[#4B5563] mb-4">
+              La ventaja es clara: <strong className="text-[#1E3A8A]">contacto directo sin intermediarios</strong>.
             </p>
-            <p className="text-gray-700 mb-4">
-              Además, son profesionales locales. Si vives en Larache y llamas a un electricista que trabaja por la zona, puede estar en tu casa en menos de una hora. Esa rapidez no la consigues con plataformas que operan a nivel nacional y que igual te mandan a alguien desde otra provincia.
+            <p className="text-[#4B5563] mb-4">
+              No hay plataformas que encarezcan el servicio ni comisiones ocultas. Puedes llamar directamente al electricista, explicar el problema y recibir un presupuesto claro. Al trabajar con profesionales locales, el tiempo de respuesta es menor, especialmente en emergencias.
             </p>
-            <p className="text-gray-700">
-              Transparencia total: ves reseñas (cuando las hay), zonas donde trabajan y formas de contacto. Tú decides, sin presiones.
+            <p className="text-[#4B5563]">
+              Nuestro objetivo es que encuentres un electricista en Ciudad Real de forma rápida, transparente y cercana.
             </p>
           </div>
 
-
-          {/* Zonas - CORREGIDO */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              📍 Zonas de Cobertura en Ciudad Real
+          {/* Zonas */}
+          <div className="bg-white rounded-lg shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 className="text-3xl font-bold text-[#111827] mb-6">
+              📍 Zonas Donde Trabajan los Electricistas
             </h2>
-            <p className="text-gray-600 mb-4">
-              Los electricistas del directorio trabajan principalmente en:
+            <p className="text-[#4B5563] mb-4">
+              Los profesionales del listado cubren habitualmente:
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="bg-gray-50 p-3 rounded">📍 Ciudad Real Centro</div>
-              <div className="bg-gray-50 p-3 rounded">📍 Larache</div>
-              <div className="bg-gray-50 p-3 rounded">📍 Los Ángeles</div>
-              <div className="bg-gray-50 p-3 rounded">📍 El Torreón</div>
-              <div className="bg-gray-50 p-3 rounded">📍 Barrio Pío XII</div>
-              <div className="bg-gray-50 p-3 rounded">📍 Miguelturra</div>
-              <div className="bg-gray-50 p-3 rounded">📍 Poblete</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Ciudad Real Centro</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Larache</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Los Ángeles</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 El Torreón</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Barrio Pío XII</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Miguelturra</div>
+              <div className="bg-[#F9FAFB] border border-[#1E3A8A]/20 p-3 rounded hover:border-[#F97316] transition-colors">📍 Poblete</div>
             </div>
-            <p className="text-gray-600 mt-4">
-              Si vives en zonas cercanas, consulta disponibilidad directamente con el profesional al llamar.
+            <p className="text-[#4B5563] mt-4">
+              Si vives en estas zonas, puedes encontrar electricistas disponibles para atención el mismo día.
             </p>
           </div>
 
-
           {/* FAQ */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              ❓ Preguntas Frecuentes
+          <div className="bg-white rounded-lg shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 className="text-3xl font-bold text-[#111827] mb-6">
+              ❓ Preguntas Frecuentes sobre Electricistas en Ciudad Real
             </h2>
             
             <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <div className="border-l-4 border-[#F97316] pl-4">
+                <h3 className="text-xl font-bold text-[#111827] mb-2">
                   ¿Cuánto cuesta un electricista en Ciudad Real?
                 </h3>
-                <p className="text-gray-600">
-                  Depende del trabajo. Un cambio de enchufe puede salir por 40-70€, mientras que renovar un cuadro eléctrico completo puede irse a 150-300€. Si necesitas servicio de urgencia fuera de horario, suma entre 30 y 60€ extra. Lo mejor es pedir presupuesto sin compromiso antes de empezar.
+                <p className="text-[#4B5563]">
+                  Depende del trabajo. Una reparación simple puede costar entre 40€ y 70€, mientras que un cambio de cuadro eléctrico puede superar los 200€. Los servicios urgentes 24 horas tienen un suplemento adicional.
                 </p>
               </div>
 
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <div className="border-l-4 border-[#F97316] pl-4">
+                <h3 className="text-xl font-bold text-[#111827] mb-2">
                   ¿Hay electricistas 24 horas en Ciudad Real?
                 </h3>
-                <p className="text-gray-600">
-                  Sí, varios de los profesionales del directorio ofrecen atención urgente las 24 horas. Útil si salta el diferencial de madrugada o si tienes una avería que te deja sin luz un sábado por la noche. Llama directamente para confirmar disponibilidad y precio del servicio nocturno.
+                <p className="text-[#4B5563]">
+                  Sí. Varios profesionales ofrecen servicio de urgencia para averías graves que no pueden esperar, como cortocircuitos o cortes de luz.
                 </p>
               </div>
 
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <div className="border-l-4 border-[#F97316] pl-4">
+                <h3 className="text-xl font-bold text-[#111827] mb-2">
                   ¿Cómo contactar con un electricista en Ciudad Real?
                 </h3>
-                <p className="text-gray-600">
-                  Entra en Servicios Locales, busca "electricista" y verás los perfiles disponibles. Cada profesional tiene su teléfono o formulario de contacto. Llamas, explicas qué necesitas, pides presupuesto y ya está. Sin formularios de "solicitud de presupuesto" que te hacen esperar días para que te llamen cinco empresas distintas.
+                <p className="text-[#4B5563]">
+                  Puedes llamar directamente desde el listado, sin registros ni intermediarios. Explica el problema y solicita presupuesto personalizado.
                 </p>
               </div>
             </div>
           </div>
 
-
           {/* CTA Final */}
-          <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white rounded-lg p-8 text-center mb-8">
+          <div className="bg-gradient-to-r from-[#1E3A8A] to-[#F97316] text-white rounded-lg p-8 text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">
-              🔎 ¿Necesitas un Electricista Ahora?
+              🔎 Encuentra Electricistas Verificados en Ciudad Real
             </h2>
             <p className="text-xl mb-6">
-              Explora los perfiles, compara y contacta directamente. Sin intermediarios, sin comisiones. Solo profesionales locales que conocen Ciudad Real tan bien como tú.
+              Si buscas un <strong>electricista en Ciudad Real con presupuesto claro y contacto directo</strong>, consulta el listado y elige el profesional que mejor se adapte a tu necesidad.
+            </p>
+            <p className="text-lg">
+              Sin comisiones. Sin intermediarios. Contacto directo con profesionales locales.
             </p>
           </div>
         </article>
 
         {/* Servicios Relacionados */}
-        <div className="bg-gray-50 p-6 rounded mb-8">
-          <h3 className="font-bold mb-3">Servicios Relacionados</h3>
+        <div className="bg-white border border-[#1E3A8A]/20 p-6 rounded-lg mb-8">
+          <h3 className="font-bold text-[#111827] mb-3">Servicios Relacionados</h3>
           <div className="space-y-2">
-            <a href="/fontanero-ciudad-real" className="text-blue-600 hover:underline block">
-              → Fontaneros en Ciudad Real
+            <a href="/fontanero-ciudad-real" className="text-[#1E3A8A] hover:text-[#F97316] transition-colors flex items-center gap-2">
+              <span>→</span> Fontaneros en Ciudad Real
             </a>
-            <a href="/cerrajero-ciudad-real" className="text-blue-600 hover:underline block">
-              → Cerrajeros en Ciudad Real
+            <a href="/cerrajero-ciudad-real" className="text-[#1E3A8A] hover:text-[#F97316] transition-colors flex items-center gap-2">
+              <span>→</span> Cerrajeros en Ciudad Real
             </a>
-            <a href="/manitas-ciudad-real" className="text-blue-600 hover:underline block">
-              → Manitas en Ciudad Real
+            <a href="/manitas-ciudad-real" className="text-[#1E3A8A] hover:text-[#F97316] transition-colors flex items-center gap-2">
+              <span>→</span> Manitas en Ciudad Real
             </a>
           </div>
         </div>
 
         {/* Listado Profesionales */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl font-bold text-[#111827] mb-6">
             Electricistas Disponibles en Ciudad Real
           </h2>
           <ProfesionalesLista 
