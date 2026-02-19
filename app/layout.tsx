@@ -3,7 +3,7 @@ import Script from 'next/script'
 import NavbarCercaPro from '@/components/NavbarCercaPro'
 
 export const metadata = {
-  metadataBase: new URL('https://servicios-locales.vercel.app'),
+  metadataBase: new URL('https://servicios-locales.vercel.app/'),
   title: {
     default: 'CercaPro - Tu profesional de confianza, a la vuelta de la esquina',
     template: '%s | CercaPro'
@@ -17,17 +17,24 @@ export const metadata = {
   openGraph: {
     title: 'CercaPro - Profesionales Ciudad Real',
     description: 'Fontaneros 24h, electricistas urgentes, cerrajeros y manitas. Sin comisiones.',
-    url: 'https://servicios-locales.vercel.app',
+    url: 'https://servicios-locales.vercel.app/',
     siteName: 'CercaPro',
-    images: '/cercapro-icon.png',
+    images: [
+      {
+        url: 'https://servicios-locales.vercel.app/cercapro-icon.png',
+        width: 800,
+        height: 800,
+        alt: 'CercaPro Logo'
+      }
+    ],
     locale: 'es_ES',
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    images: '/cercapro-icon.png'
+    images: ['https://servicios-locales.vercel.app/cercapro-icon.png']
   }
-};
+}
 
 export default function RootLayout({
   children,
