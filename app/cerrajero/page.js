@@ -2,7 +2,7 @@ import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Cerrajeros en Ciudad Real - Urgencias 24h | CercaPro',
+  title: 'Cerrajeros en Ciudad Real - Urgencias 24h',
   description: 'Encuentra cerrajeros profesionales en Ciudad Real. Presupuestos gratis, servicio rápido y sin intermediarios. 7 profesionales verificados.',
   keywords: 'cerrajero ciudad real, cerrajeria urgente, cerrajero 24 horas ciudad real, presupuesto cerrajero',
 };

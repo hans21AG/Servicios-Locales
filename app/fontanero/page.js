@@ -2,7 +2,7 @@ import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Fontaneros en Ciudad Real - Urgencias 24h | CercaPro',
+  title: 'Fontaneros en Ciudad Real - Urgencias 24h',
   description: 'Encuentra fontaneros profesionales en Ciudad Real. Presupuestos gratis, servicio rápido y sin intermediarios. 9 profesionales verificados.',
   keywords: 'fontanero ciudad real, fontaneria urgente, fontanero 24 horas ciudad real, presupuesto fontanero',
 };

@@ -2,7 +2,7 @@ import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Electricistas en Ciudad Real - Urgencias 24h | CercaPro',
+  title: 'Electricistas en Ciudad Real - Urgencias 24h',
   description: 'Encuentra electricistas profesionales en Ciudad Real. Presupuestos gratis, servicio rápido y sin intermediarios. 7 profesionales verificados.',
   keywords: 'electricista ciudad real, electricidad urgente, electricista 24 horas ciudad real, presupuesto electricista',
 };
