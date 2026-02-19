@@ -3,14 +3,31 @@ import Script from 'next/script'
 import NavbarCercaPro from '@/components/NavbarCercaPro'
 
 export const metadata = {
-  title: 'CercaPro - Tu profesional de confianza, a la vuelta de la esquina',
+  metadataBase: new URL('https://servicios-locales.vercel.app'),
+  title: {
+    default: 'CercaPro - Tu profesional de confianza, a la vuelta de la esquina',
+    template: '%s | CercaPro'
+  },
   description: 'Encuentra fontaneros, electricistas, cerrajeros y manitas en Ciudad Real. Contacto directo, sin comisiones. 28 profesionales verificados.',
   icons: {
     icon: '/cercapro-icon.png',
     shortcut: '/cercapro-icon.png',
     apple: '/cercapro-icon.png',
   },
-}
+  openGraph: {
+    title: 'CercaPro - Profesionales Ciudad Real',
+    description: 'Fontaneros 24h, electricistas urgentes, cerrajeros y manitas. Sin comisiones.',
+    url: 'https://servicios-locales.vercel.app',
+    siteName: 'CercaPro',
+    images: '/cercapro-icon.png',
+    locale: 'es_ES',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: '/cercapro-icon.png'
+  }
+};
 
 export default function RootLayout({
   children,
