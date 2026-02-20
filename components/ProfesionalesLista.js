@@ -1,0 +1,317 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { supabase } from '../lib/supabase';
+
+// ========== COMPONENTE TARJETA CON ANIMACIONES ==========
+function TarjetaProfesional({ profesional, index }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        bg-white rounded-xl shadow-md border border-gray-200 p-6
+        transform transition-all duration-700 ease-out
+        hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1
+        ${isVisible 
+          ? 'opacity-100 scale-100 translate-y-0' 
+          : 'opacity-0 scale-95 translate-y-8'
+        }
+      `}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="flex items-start gap-4">
+        {/* Logo animado */}
+        <div className="text-4xl transition-transform duration-300 hover:rotate-12 hover:scale-110">
+          {profesional.categorias?.icono || '👷'}
+        </div>
+        
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            {profesional.nombre}
+          </h2>
+          <p className="text-blue-600 font-semibold mb-3">
+            {profesional.categorias?.nombre || 'Sin categoría'}
+          </p>
+          {profesional.descripcion && (
+            <p className="text-gray-600 mb-3 text-sm">
+              {profesional.descripcion}
+            </p>
+          )}
+          
+          {/* CONTACTO */}
+          <div className="space-y-2">
+            {/* Ciudad */}
+            <p className="flex items-center gap-2 text-gray-600">
+              📍 {profesional.ciudad}
+            </p>
+            
+            {/* Teléfono */}
+            <div className="flex items-center gap-2">
+              <a 
+                href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'click_telefono', {
+                      profesional_nombre: profesional.nombre,
+                      profesional_id: profesional.id,
+                      categoria: profesional.categorias?.nombre,
+                      ciudad: profesional.ciudad
+                    });
+                  }
+                }}
+                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+              >
+                📞 {profesional.telefono}
+              </a>
+            </div>
+
+            {/* Botones Email y Copiar */}
+            <div className="flex gap-3 pt-2">
+              {/* Botón Email */}
+              {profesional.email ? (
+                <a 
+                  href={`mailto:${profesional.email}?subject=Consulta desde Servicios Locales&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && window.gtag) {
+                      window.gtag('event', 'click_email', {
+                        profesional_nombre: profesional.nombre,
+                        profesional_id: profesional.id,
+                        categoria: profesional.categorias?.nombre
+                      });
+                    }
+                  }}
+                  className="inline-flex items-center gap-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold"
+                >
+                  ✉️ Enviar Email
+                </a>
+              ) : (
+                <button 
+                  disabled
+                  className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
+                >
+                  ✉️ Email no disponible
+                </button>
+              )}
+
+              {/* Botón Copiar */}
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(profesional.telefono);
+                  alert('📋 Teléfono copiado al portapapeles');
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'copiar_telefono', {
+                      profesional_nombre: profesional.nombre,
+                      profesional_id: profesional.id
+                    });
+                  }
+                }}
+                className="inline-flex items-center gap-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
+              >
+                📋 Copiar teléfono
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ========== COMPONENTE PRINCIPAL ==========
+export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltros = true }) {
+  const [profesionales, setProfesionales] = useState([]);
+  const [profesionalesFiltrados, setProfesionalesFiltrados] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Estados filtros
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoriaSlug || 'todas');
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState('todas');
+  const [categorias, setCategorias] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
+
+  // Cargar datos iniciales
+  useEffect(() => {
+    async function load() {
+      let query = supabase
+        .from('Profesionales')
+        .select(`*, categorias(nombre, icono, slug)`)
+        .order('nombre');
+
+      // Si hay categoría específica, filtrar desde el query
+      if (categoriaSlug) {
+        const { data: catData } = await supabase
+          .from('categorias')
+          .select('id')
+          .eq('slug', categoriaSlug)
+          .single();
+        
+        if (catData) {
+          query = query.eq('categoria_id', catData.id);
+        }
+      }
+
+      const { data: prosData, error: prosError } = await query;
+      
+      if (prosError) {
+        console.error('Error cargando profesionales:', prosError);
+      } else {
+        setProfesionales(prosData || []);
+        setProfesionalesFiltrados(prosData || []);
+        
+        // Extraer ciudades únicas
+        const ciudadesUnicas = [...new Set(prosData.map(p => p.ciudad))].sort();
+        setCiudades(ciudadesUnicas);
+      }
+
+      // Cargar categorías para filtros
+      const { data: catsData, error: catsError } = await supabase
+        .from('categorias')
+        .select('*')
+        .order('nombre');
+      
+      if (catsError) {
+        console.error('Error cargando categorías:', catsError);
+      } else {
+        setCategorias(catsData || []);
+      }
+
+      setLoading(false);
+    }
+    load();
+  }, [categoriaSlug]);
+
+  // Aplicar filtros
+  useEffect(() => {
+    let resultado = profesionales;
+
+    if (categoriaSeleccionada !== 'todas' && !categoriaSlug) {
+      resultado = resultado.filter(p => 
+        p.categorias?.nombre === categoriaSeleccionada
+      );
+    }
+
+    if (ciudadSeleccionada !== 'todas') {
+      resultado = resultado.filter(p => p.ciudad === ciudadSeleccionada);
+    }
+
+    setProfesionalesFiltrados(resultado);
+  }, [categoriaSeleccionada, ciudadSeleccionada, profesionales, categoriaSlug]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando profesionales...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Filtros (opcional) */}
+      {mostrarFiltros && (
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            {/* Filtro Categoría (solo si no hay categoría específica) */}
+            {!categoriaSlug && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Categoría
+                </label>
+                <select
+                  value={categoriaSeleccionada}
+                  onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="todas">Todas las categorías</option>
+                  {categorias.map((cat) => (
+                    <option key={cat.id} value={cat.nombre}>
+                      {cat.icono} {cat.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Filtro Ciudad */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ciudad
+              </label>
+              <select
+                value={ciudadSeleccionada}
+                onChange={(e) => setCiudadSeleccionada(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="todas">Todas las ciudades</option>
+                {ciudades.map((ciudad) => (
+                  <option key={ciudad} value={ciudad}>
+                    {ciudad}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Contador resultados */}
+          <div className="flex items-center justify-between text-sm">
+            <p className="text-gray-600">
+              <span className="font-semibold text-blue-600">
+                {profesionalesFiltrados.length}
+              </span> profesionales encontrados
+            </p>
+            {(categoriaSeleccionada !== 'todas' || ciudadSeleccionada !== 'todas') && !categoriaSlug && (
+              <button
+                onClick={() => {
+                  setCategoriaSeleccionada('todas');
+                  setCiudadSeleccionada('todas');
+                }}
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Limpiar filtros
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Listado Profesionales CON ANIMACIONES */}
+      {profesionalesFiltrados.length === 0 ? (
+        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+          <p className="text-gray-500 text-lg">
+            No se encontraron profesionales
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {profesionalesFiltrados.map((prof, index) => (
+            <TarjetaProfesional 
+              key={prof.id} 
+              profesional={prof} 
+              index={index}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
