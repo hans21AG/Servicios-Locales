@@ -136,7 +136,7 @@ function TarjetaProfesional({ profesional, index }) {
           onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#F97316')}
           onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1E3A8A')}
         >
-          📞 {profesional.telefono}
+          {'📞'} {profesional.telefono}
         </a>
 
         {profesional.email ? (
