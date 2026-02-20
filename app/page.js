@@ -67,7 +67,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#10B981] text-xl">✓</span>
-              <span className="font-medium">100% Gratis</span>
+              <span className="font-medium">De Confianza</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#10B981] text-xl">✓</span>
