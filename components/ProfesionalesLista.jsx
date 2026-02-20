@@ -263,6 +263,16 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
   useEffect(() => {
     let resultado = profesionales;
 
+    // Abiertos primero
+    const ahoraCET = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
+    const horaActual = ahoraCET.getHours() * 60 + ahoraCET.getMinutes();
+
+    resultado.sort((a, b) => {
+      const estaAbiertoA = a.disponible_24h || (a.horario_inicio && horaActual >= parseInt(a.horario_inicio) * 60 && horaActual < parseInt(a.horario_fin) * 60);
+      const estaAbiertoB = b.disponible_24h || (b.horario_inicio && horaActual >= parseInt(b.horario_inicio) * 60 && horaActual < parseInt(b.horario_fin) * 60);
+      return estaAbiertoB - estaAbiertoA;
+    });
+
     if (categoriaSeleccionada !== 'todas' && !categoriaSlug) {
       resultado = resultado.filter(p =>
         p.categorias?.nombre === categoriaSeleccionada
