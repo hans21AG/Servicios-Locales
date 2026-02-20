@@ -128,45 +128,43 @@ function TarjetaProfesional({ profesional, index }) {
 
       {/* Botones contacto */}
       <div className="flex flex-wrap gap-2">
-        
-          href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
-          onClick={() => trackEvent('click_telefono')}
-          className="flex-1 min-w-[140px] text-center text-sm font-semibold text-white rounded-lg py-2.5 px-3 transition-colors duration-200"
-          style={{ backgroundColor: '#1E3A8A' }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#F97316')}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1E3A8A')}
-        >
-          {'📞'} {profesional.telefono}
-        </a>
 
-        {profesional.email ? (
-          
-            href={`mailto:${profesional.email}?subject=Consulta desde CercaPro&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde CercaPro.%0A%0AConsulta:%0A`}
-            onClick={() => trackEvent('click_email')}
-            className="text-sm font-semibold text-white rounded-lg py-2.5 px-3 transition-colors duration-200"
-            style={{ backgroundColor: '#10B981' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#059669')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#10B981')}
-          >
-            ✉️ Email
-          </a>
-        ) : (
-          <button
-            disabled
-            className="text-sm font-semibold text-gray-400 border border-gray-200 rounded-lg py-2.5 px-3 cursor-not-allowed"
-          >
-            ✉️ Sin email
-          </button>
-        )}
-
-        <button
-          onClick={copiarTelefono}
-          className="text-sm font-semibold text-gray-600 border border-gray-200 rounded-lg py-2.5 px-3 hover:border-orange-400 hover:text-orange-500 transition-colors duration-200"
+        href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
+        onClick={() => trackEvent('click_telefono')}
+        className="flex-1 min-w-[140px] text-center text-sm font-semibold text-white rounded-lg py-2.5 px-3 transition-colors duration-200 bg-blue-900 hover:bg-orange-500"
         >
-          {copiado ? '✅ Copiado' : '📋 Copiar'}
-        </button>
-      </div>
-    </div>
+        📞 {profesional.telefono}
+      </a>
+
+      {profesional.email ? (
+
+        href = {`mailto:${profesional.email}?subject=Consulta desde CercaPro&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde CercaPro.%0A%0AConsulta:%0A`}
+      onClick={() => trackEvent('click_email')}
+      className="text-sm font-semibold text-white rounded-lg py-2.5 px-3 transition-colors duration-200"
+      style={{ backgroundColor: '#10B981' }}
+      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#059669')}
+      onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#10B981')}
+          >
+      ✉️ Email
+    </a>
+  ) : (
+    <button
+      disabled
+      className="text-sm font-semibold text-gray-400 border border-gray-200 rounded-lg py-2.5 px-3 cursor-not-allowed"
+    >
+      ✉️ Sin email
+    </button>
+  )
+}
+
+<button
+  onClick={copiarTelefono}
+  className="text-sm font-semibold text-gray-600 border border-gray-200 rounded-lg py-2.5 px-3 hover:border-orange-400 hover:text-orange-500 transition-colors duration-200"
+>
+  {copiado ? '✅ Copiado' : '📋 Copiar'}
+</button>
+      </div >
+    </div >
   );
 }
 
