@@ -3,6 +3,45 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
+// ========== FUNCIÓN DISPONIBILIDAD DEFINITIVA ==========
+function getEstadoDisponibilidad(profesional) {
+  if (profesional.disponible_24h) {
+    return { texto: 'Disponible 24h', color: 'bg-green-100 text-green-800' };
+  }
+  if (!profesional.horario_inicio || !profesional.horario_fin || !profesional.horario_texto) {
+    return null;
+  }
+
+  // CET timezone España
+  const ahora = new Date();
+  const cetOffset = 60;
+  const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000);
+  const horaCET = new Date(utc + (cetOffset * 60000));
+  const diaSemana = horaCET.getDay(); // 0=Domingo, 1=Lunes...6=Sábado
+  const horaActual = horaCET.getHours() * 60 + horaCET.getMinutes();
+
+  const [hIni, mIni] = profesional.horario_inicio.split(':').map(Number);
+  const [hFin, mFin] = profesional.horario_fin.split(':').map(Number);
+  const inicio = hIni * 60 + mIni;
+  const fin = hFin * 60 + mFin;
+
+  const finFormateado = `${String(hFin).padStart(2, '0')}:${String(mFin).padStart(2, '0')}`;
+  const inicioFormateado = `${String(hIni).padStart(2, '0')}:${String(mIni).padStart(2, '0')}`;
+  const diasTexto = profesional.horario_texto;
+
+  // Check si hoy es día activo (simplificado)
+  const hoyTexto = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'][diaSemana];
+  const estaAbiertoHoy = diasTexto.includes(hoyTexto);
+
+  if (estaAbiertoHoy && horaActual >= inicio && horaActual < fin) {
+    return { texto: `Abierto - cierra ${finFormateado}`, color: 'bg-green-100 text-green-800' };
+  }
+  if (estaAbiertoHoy) {
+    return { texto: `Abre ${inicioFormateado} hoy`, color: 'bg-orange-100 text-orange-800' };
+  }
+  return { texto: `${diasTexto} ${inicioFormateado}-${finFormateado}`, color: 'bg-gray-100 text-gray-800' };
+}
+
 // ========== COMPONENTE TARJETA CON ANIMACIONES ==========
 function TarjetaProfesional({ profesional, index }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,8 +68,8 @@ function TarjetaProfesional({ profesional, index }) {
         bg-white rounded-xl shadow-md border border-gray-200 p-6
         transform transition-all duration-700 ease-out
         hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1
-        ${isVisible 
-          ? 'opacity-100 scale-100 translate-y-0' 
+        ${isVisible
+          ? 'opacity-100 scale-100 translate-y-0'
           : 'opacity-0 scale-95 translate-y-8'
         }
       `}
@@ -41,7 +80,7 @@ function TarjetaProfesional({ profesional, index }) {
         <div className="text-4xl transition-transform duration-300 hover:rotate-12 hover:scale-110">
           {profesional.categorias?.icono || '👷'}
         </div>
-        
+
         <div className="flex-1">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             {profesional.nombre}
@@ -54,17 +93,40 @@ function TarjetaProfesional({ profesional, index }) {
               {profesional.descripcion}
             </p>
           )}
-          
+
           {/* CONTACTO */}
           <div className="space-y-2">
             {/* Ciudad */}
             <p className="flex items-center gap-2 text-gray-600">
               📍 {profesional.ciudad}
             </p>
-            
+
+            {/* Badge disponibilidad */}
+            {(() => {
+              const ahoraCET = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
+              const horaActual = ahoraCET.getHours() * 60 + ahoraCET.getMinutes();
+              const [hIni] = (profesional.horario_inicio || '').split(':').map(Number);
+              const [hFin] = (profesional.horario_fin || '').split(':').map(Number);
+              const estaAbierto = profesional.disponible_24h || (profesional.horario_inicio && horaActual >= hIni * 60 && horaActual < hFin * 60);
+              const horario = profesional.disponible_24h ? '24h' : profesional.horario_texto || null;
+
+              if (!profesional.disponible_24h && !profesional.horario_inicio) return null;
+
+              return (
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${estaAbierto ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {estaAbierto ? '● Abierto' : '● Cerrado'}
+                  </span>
+                  {horario && (
+                    <span className="text-xs text-gray-500">{horario}</span>
+                  )}
+                </div>
+              );
+            })()}
+
             {/* Teléfono */}
             <div className="flex items-center gap-2">
-              <a 
+              <a
                 href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
                 onClick={() => {
                   if (typeof window !== 'undefined' && window.gtag) {
@@ -86,7 +148,7 @@ function TarjetaProfesional({ profesional, index }) {
             <div className="flex gap-3 pt-2">
               {/* Botón Email */}
               {profesional.email ? (
-                <a 
+                <a
                   href={`mailto:${profesional.email}?subject=Consulta desde Servicios Locales&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
                   onClick={() => {
                     if (typeof window !== 'undefined' && window.gtag) {
@@ -102,7 +164,7 @@ function TarjetaProfesional({ profesional, index }) {
                   ✉️ Enviar Email
                 </a>
               ) : (
-                <button 
+                <button
                   disabled
                   className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
                 >
@@ -139,7 +201,7 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
   const [profesionales, setProfesionales] = useState([]);
   const [profesionalesFiltrados, setProfesionalesFiltrados] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Estados filtros
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoriaSlug || 'todas');
   const [ciudadSeleccionada, setCiudadSeleccionada] = useState('todas');
@@ -151,7 +213,7 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
     async function load() {
       let query = supabase
         .from('Profesionales')
-        .select(`*, categorias(nombre, icono, slug)`)
+        .select(`*, categorias(nombre, icono, slug), disponible_24h, horario_inicio, horario_fin, horario_texto`)
         .order('nombre');
 
       // Si hay categoría específica, filtrar desde el query
@@ -161,20 +223,20 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
           .select('id')
           .eq('slug', categoriaSlug)
           .single();
-        
+
         if (catData) {
           query = query.eq('categoria_id', catData.id);
         }
       }
 
       const { data: prosData, error: prosError } = await query;
-      
+
       if (prosError) {
         console.error('Error cargando profesionales:', prosError);
       } else {
         setProfesionales(prosData || []);
         setProfesionalesFiltrados(prosData || []);
-        
+
         // Extraer ciudades únicas
         const ciudadesUnicas = [...new Set(prosData.map(p => p.ciudad))].sort();
         setCiudades(ciudadesUnicas);
@@ -185,7 +247,7 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
         .from('categorias')
         .select('*')
         .order('nombre');
-      
+
       if (catsError) {
         console.error('Error cargando categorías:', catsError);
       } else {
@@ -202,7 +264,7 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
     let resultado = profesionales;
 
     if (categoriaSeleccionada !== 'todas' && !categoriaSlug) {
-      resultado = resultado.filter(p => 
+      resultado = resultado.filter(p =>
         p.categorias?.nombre === categoriaSeleccionada
       );
     }
@@ -304,9 +366,9 @@ export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltro
       ) : (
         <div className="space-y-4">
           {profesionalesFiltrados.map((prof, index) => (
-            <TarjetaProfesional 
-              key={prof.id} 
-              profesional={prof} 
+            <TarjetaProfesional
+              key={prof.id}
+              profesional={prof}
               index={index}
             />
           ))}
