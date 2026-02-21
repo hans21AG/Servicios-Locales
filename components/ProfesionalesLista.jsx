@@ -186,7 +186,7 @@ function TarjetaProfesional({ profesional, index }) {
             {/* Botones Email y Copiar */}
             <div className="flex gap-3 pt-2">
               {/* Botón Email */}
-              {profesional.email ? (
+              {profesional.email && (
                 <a
                   href={`mailto:${profesional.email}?subject=Consulta desde Servicios Locales&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde Servicios Locales.%0A%0AConsulta:%0A`}
                   onClick={() => {
@@ -202,13 +202,6 @@ function TarjetaProfesional({ profesional, index }) {
                 >
                   ✉️ Enviar Email
                 </a>
-              ) : (
-                <button
-                  disabled
-                  className="inline-flex items-center gap-1 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed text-sm font-semibold"
-                >
-                  ✉️ Email no disponible
-                </button>
               )}
 
               {/* Botón WhatsApp - solo si tiene whatsapp */}
