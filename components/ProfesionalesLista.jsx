@@ -104,14 +104,29 @@ function TarjetaProfesional({ profesional, index }) {
                 {/* Estrellas */}
                 <div className="flex items-center">
                   {[1, 2, 3, 4, 5].map((star) => {
-                    const filled = star <= Math.floor(profesional.google_rating);
-                    const half = !filled && star === Math.ceil(profesional.google_rating) && profesional.google_rating % 1 >= 0.3;
-                    return (
-                      <span key={star} className={`text-xs ${filled || half ? 'text-yellow-400' : 'text-gray-300'}`}>
-                        ★
-                      </span>
-                    );
+                    const rating = profesional.google_rating;
+                    const fullStars = Math.floor(rating);
+                    const decimal = rating - fullStars;
+                    const isHalf = decimal >= 0.25 && decimal < 0.75;
+                    const isFullFromHalf = decimal >= 0.75;
+
+                    const filled = star <= fullStars || (isFullFromHalf && star === fullStars + 1);
+                    const half = !filled && isHalf && star === fullStars + 1;
+
+                    if (filled) {
+                      return <span key={star} className="text-xs text-yellow-400">★</span>;
+                    }
+                    if (half) {
+                      return (
+                        <span key={star} className="text-xs relative inline-block">
+                          <span className="text-gray-300">★</span>
+                          <span className="absolute inset-0 overflow-hidden w-[50%] text-yellow-400">★</span>
+                        </span>
+                      );
+                    }
+                    return <span key={star} className="text-xs text-gray-300">★</span>;
                   })}
+
                 </div>
 
                 {/* Rating numérico + reseñas */}
