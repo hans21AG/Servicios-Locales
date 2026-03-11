@@ -1,5 +1,6 @@
-import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
+import { Droplets } from 'lucide-react';
+import ProfesionalesLista from '../../components/ProfesionalesLista';
 
 export const metadata = {
   title: 'Fontaneros en Ciudad Real - Urgencias 24h',
@@ -21,11 +22,13 @@ export default function FontaneroPage() {
         {/* Header SEO */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[#111827] mb-4 flex items-center gap-3">
-            🔧 Fontaneros en Ciudad Real
+            <Droplets className="h-9 w-9 text-blue-500" />
+            Fontaneros en Ciudad Real
           </h1>
+
           <p className="text-xl text-[#4B5563] leading-relaxed">
-            ¿Necesitas un fontanero urgente en Ciudad Real? Encuentra profesionales verificados 
-            para reparaciones, instalaciones y emergencias 24 horas. Presupuestos gratis 
+            ¿Necesitas un fontanero urgente en Ciudad Real? Encuentra profesionales verificados
+            para reparaciones, instalaciones y emergencias 24 horas. Presupuestos gratis
             y sin intermediarios.
           </p>
         </div>
@@ -39,7 +42,7 @@ export default function FontaneroPage() {
               <p className="text-white/90 mb-3">
                 Precios orientativos, zonas de cobertura, servicios más solicitados y preguntas frecuentes
               </p>
-              <Link 
+              <Link
                 href="/fontanero-ciudad-real"
                 className="inline-block px-6 py-3 bg-white text-[#1E3A8A] font-semibold rounded-lg hover:bg-[#F9FAFB] transition-colors"
               >

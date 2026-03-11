@@ -1,5 +1,6 @@
-import ProfesionalesLista from '../../components/ProfesionalesLista';
 import Link from 'next/link';
+import { KeyRound } from 'lucide-react';
+import ProfesionalesLista from '../../components/ProfesionalesLista';
 
 export const metadata = {
   title: 'Cerrajeros en Ciudad Real - Urgencias 24h',
@@ -21,11 +22,13 @@ export default function CerrajeroPage() {
         {/* Header SEO */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[#111827] mb-4 flex items-center gap-3">
-            🔑 Cerrajeros en Ciudad Real
+            <KeyRound className="h-9 w-9 text-emerald-500" />
+            Cerrajeros en Ciudad Real
           </h1>
+
           <p className="text-xl text-[#4B5563] leading-relaxed">
-            ¿Necesitas un cerrajero urgente en Ciudad Real? Encuentra profesionales verificados 
-            para aperturas, cambio de bombines y emergencias 24 horas. Presupuestos gratis 
+            ¿Necesitas un cerrajero urgente en Ciudad Real? Encuentra profesionales verificados
+            para aperturas, cambio de bombines y emergencias 24 horas. Presupuestos gratis
             y sin intermediarios.
           </p>
         </div>
@@ -39,7 +42,7 @@ export default function CerrajeroPage() {
               <p className="text-white/90 mb-3">
                 Precios orientativos, zonas de cobertura, servicios más solicitados y preguntas frecuentes
               </p>
-              <Link 
+              <Link
                 href="/cerrajero-ciudad-real"
                 className="inline-block px-6 py-3 bg-white text-[#1E3A8A] font-semibold rounded-lg hover:bg-[#F9FAFB] transition-colors"
               >

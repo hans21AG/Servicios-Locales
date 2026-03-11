@@ -1,246 +1,221 @@
-import ProfesionalesLista from '@/components/ProfesionalesLista'
+import Link from 'next/link';
+import { Users, Clock, BadgeCheck, Check, PhoneCall, MapPin, ArrowRight } from 'lucide-react';
+import ProfesionalesLista from '../../components/ProfesionalesLista';
+import FaqAccordion from './FaqAccordion';
 
 export const metadata = {
-  title: 'Manitas en Ciudad Real - Reparaciones y Pequeñas Reformas Sin Comisiones',
-  description: 'Encuentra manitas en Ciudad Real para montaje de muebles, colgar estanterías, reparar persianas y más. Contacto directo, sin comisiones. Desde 30€.',
-  keywords: 'manitas ciudad real, manitas miguelturra, montaje muebles ciudad real, reparaciones hogar ciudad real, colgar estanterías ciudad real, arreglar persianas',
-  openGraph: {
-    title: 'Manitas en Ciudad Real - Servicios Locales',
-    description: 'Directorio gratuito de manitas profesionales en Ciudad Real. Montaje, reparaciones y bricolaje sin comisiones.',
-    type: 'website',
-    locale: 'es_ES',
-  }
-}
+  title: 'Manitas en Ciudad Real - Reparaciones del Hogar | Presupuesto Gratis',
+  description: 'Manitas en Ciudad Real. Montaje de muebles, pintura, pequeñas reparaciones. Contacto directo sin comisiones. Centro, Larache, Miguelturra.',
+  keywords: 'manitas ciudad real, manitas a domicilio ciudad real, reparaciones hogar ciudad real, montaje muebles ciudad real',
+};
 
-export default function ManitasCiudadReal() {
-  const faqs = [
-    {
-      question: "¿Cuánto cuesta un manitas en Ciudad Real?",
-      answer: "Depende del trabajo. Colgar un par de cuadros puede salir por 30-40€, mientras que montar una cocina completa del Ikea puede irse a 100-150€ o más. Muchos manitas cobran por horas (15-25€/hora) o hacen presupuesto cerrado según el trabajo. Lo mejor es llamar, explicar qué necesitas y pedir precio sin compromiso."
-    },
-    {
-      question: "¿Qué tipo de trabajos hace un manitas?",
-      answer: "Un manitas es el profesional todoterreno para pequeños arreglos: montar muebles, colgar estanterías, reparar persianas, cambiar grifos, instalar cortinas, arreglar puertas que no cierran bien, pintar una habitación... Todo lo que no requiere un especialista (electricista, fontanero) pero que necesita manos expertas. Si tienes dudas, llama y pregunta."
-    },
-    {
-      question: "¿Cómo contactar con un manitas en Ciudad Real?",
-      answer: "Entra en Servicios Locales, busca manitas y verás los perfiles disponibles en Ciudad Real y Miguelturra. Cada profesional tiene su teléfono o formulario de contacto. Llamas, explicas lo que necesitas, pides presupuesto y listo. Sin formularios complicados ni esperas interminables para que te llamen varias empresas."
-    }
-  ]
+const pricingRows = [
+  { service: 'Montaje de muebles (pack)', price: '40€ – 80€', urgent: false },
+  { service: 'Pintura de habitación', price: '80€ – 200€', urgent: false },
+  { service: 'Instalación de persianas o cortinas', price: '30€ – 60€', urgent: false },
+  { service: 'Reparaciones varias en el hogar', price: '40€ – 100€', urgent: false },
+  { service: 'Servicio urgente mismo día', price: '+20€ – 40€', urgent: true },
+];
 
-  const schemaFAQ = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  }
+const services = [
+  'Montaje de muebles de IKEA y otros',
+  'Pintura de paredes y techos',
+  'Instalación de persianas y cortinas',
+  'Pequeñas reparaciones del hogar',
+  'Colocación de cuadros y estantes',
+  'Reparación de puertas y ventanas',
+  'Trabajos de bricolaje en general',
+];
 
-  const schemaLocalBusiness = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Servicios Locales Ciudad Real - Manitas",
-    "description": "Directorio gratuito de manitas profesionales en Ciudad Real",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Ciudad Real",
-      "addressRegion": "Castilla-La Mancha",
-      "addressCountry": "ES"
-    },
-    "url": "https://servicios-locales.vercel.app/manitas-ciudad-real",
-    "priceRange": "€€",
-    "areaServed": ["Ciudad Real", "Miguelturra", "Poblete"]
-  }
+const zones = [
+  'Ciudad Real Centro', 'Larache', 'Los Ángeles', 'El Torreón',
+  'Barrio Pío XII', 'Miguelturra', 'Poblete',
+];
 
+const faqs = [
+  {
+    q: '¿Cuánto cuesta un manitas en Ciudad Real?',
+    a: 'Depende del trabajo. El montaje de muebles suele costar entre 40€ y 80€, y una habitación pintada entre 80€ y 200€. La mayoría de trabajos pequeños se resuelven en una visita de 1 a 3 horas.',
+  },
+  {
+    q: '¿Qué trabajos hace un manitas?',
+    a: 'Un manitas se encarga de pequeñas reparaciones del hogar que no requieren un especialista: montar muebles, colgar cuadros, pintar paredes, instalar persianas, arreglar puertas o ventanas y trabajos de bricolaje en general.',
+  },
+  {
+    q: '¿Cómo contactar con un manitas en Ciudad Real?',
+    a: 'Puedes llamar directamente al profesional desde el listado, sin registros ni intermediarios. Explica el trabajo y solicita presupuesto antes de confirmar la visita.',
+  },
+];
+
+const relatedServices = [
+  { label: 'Fontaneros en Ciudad Real', href: '/fontanero-ciudad-real' },
+  { label: 'Electricistas en Ciudad Real', href: '/electricista-ciudad-real' },
+  { label: 'Cerrajeros en Ciudad Real', href: '/cerrajero-ciudad-real' },
+];
+
+export default function ManitasCiudadRealPage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFAQ) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaLocalBusiness) }}
-      />
+    <div className="min-h-screen bg-background py-12 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6">Manitas en Ciudad Real: Reparaciones y Pequeñas Reformas Sin Comisiones</h1>
-        
-        <div className="prose max-w-none mb-8">
-          <p>
-            ¿Necesitas colgar una estantería, arreglar una persiana que no sube o montar los muebles del Ikea? 
-            Cuando buscas un manitas en Ciudad Real que haga esos pequeños arreglos que no sabes (o no quieres) hacer tú, 
-            lo último que necesitas es rellenar formularios o pagar comisiones a intermediarios. En Servicios Locales 
-            conectamos directamente con profesionales que trabajan en Ciudad Real capital y Miguelturra.
+        {/* BREADCRUMB */}
+        <nav className="text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-accent transition-colors">Inicio</Link>
+          <span className="mx-2">/</span>
+          <Link href="/manitas" className="hover:text-accent transition-colors">Manitas</Link>
+          <span className="mx-2">/</span>
+          <span className="text-foreground">Ciudad Real</span>
+        </nav>
+
+        {/* HERO CARD */}
+        <div className="bg-card rounded-2xl shadow-card p-8">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+            Manitas en Ciudad Real: Reparaciones del Hogar y Presupuesto Gratis
+          </h1>
+          <div className="flex flex-wrap gap-3 mb-6">
+            <span className="inline-flex items-center gap-2 bg-secondary text-primary px-4 py-2 rounded-xl text-sm font-medium">
+              <Users size={16} /> 5 Profesionales
+            </span>
+            <span className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-xl text-sm font-medium">
+              <Clock size={16} /> Mismo día
+            </span>
+            <span className="inline-flex items-center gap-2 bg-orange-100 text-accent px-4 py-2 rounded-xl text-sm font-medium">
+              <BadgeCheck size={16} /> 0€ Comisiones
+            </span>
+          </div>
+          <p className="text-muted-foreground mb-4">
+            ¿Buscas un <strong className="text-primary">manitas en Ciudad Real</strong> para montar muebles, pintar una habitación o resolver pequeñas reparaciones del hogar? En CercaPro encontrarás profesionales disponibles en el Centro, Larache, Los Ángeles, El Torreón y zonas como Miguelturra y Poblete.
           </p>
-          <p>
-            Aquí no hay empresas que se queden un porcentaje por ponerte en contacto. Ves el perfil del manitas, 
-            llamas directamente, explicas lo que necesitas y pides presupuesto. Simple y transparente. Desde colgar 
-            un cuadro hasta cambiar un grifo que gotea, pasando por montar muebles o arreglar una puerta que no 
-            cierra bien. Los pequeños trabajos del día a día que necesitan manos expertas.
+          <p className="text-muted-foreground">
+            Contacto directo con el profesional, sin intermediarios ni comisiones. Si buscas un <strong className="text-primary">manitas a domicilio en Ciudad Real</strong> con presupuesto claro y respuesta rápida, estás en el lugar correcto.
           </p>
         </div>
 
-        <h2 className="text-2xl font-bold mb-4">¿Cuánto Cuesta un Manitas en Ciudad Real?</h2>
-        <p className="mb-4">Los precios varían según el tipo de trabajo y el tiempo que lleve, pero aquí tienes una referencia orientativa:</p>
-        
-        <div className="overflow-x-auto mb-8">
-          <table className="w-full border-collapse border border-gray-300">
+        {/* PRICING TABLE */}
+        <div className="bg-card rounded-2xl shadow-card overflow-hidden">
+          <div className="p-8 pb-4">
+            <h2 className="font-display text-2xl font-bold text-foreground">
+              Precios Orientativos de Manitas en Ciudad Real
+            </h2>
+          </div>
+          <table className="w-full text-left">
             <thead>
-              <tr className="bg-blue-50">
-                <th className="border border-gray-300 p-3 text-left">Servicio</th>
-                <th className="border border-gray-300 p-3 text-left">Precio aproximado</th>
+              <tr className="border-b border-border">
+                <th className="px-8 py-3 text-sm font-semibold text-foreground">Servicio</th>
+                <th className="px-8 py-3 text-sm font-semibold text-foreground text-right">Precio aproximado</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border border-gray-300 p-3">Colgar cuadros, espejos o estanterías</td>
-                <td className="border border-gray-300 p-3">30€ – 60€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Montaje de muebles (Ikea, Leroy...)</td>
-                <td className="border border-gray-300 p-3">50€ – 120€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Reparación de persianas</td>
-                <td className="border border-gray-300 p-3">40€ – 90€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Instalación de cortinas o estores</td>
-                <td className="border border-gray-300 p-3">35€ – 70€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Cambio de grifos o reparaciones simples</td>
-                <td className="border border-gray-300 p-3">50€ – 100€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Pequeñas reparaciones de carpintería</td>
-                <td className="border border-gray-300 p-3">40€ – 80€</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-3">Arreglo de puertas (ajuste, bisagras...)</td>
-                <td className="border border-gray-300 p-3">45€ – 85€</td>
-              </tr>
+              {pricingRows.map((row, i) => (
+                <tr key={i} className={i % 2 === 1 ? 'bg-secondary' : ''}>
+                  <td className="px-8 py-3 text-sm text-foreground">{row.service}</td>
+                  <td className={`px-8 py-3 text-sm font-bold text-right ${row.urgent ? 'text-accent' : 'text-primary'}`}>
+                    {row.price}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        </div>
-
-        <p className="text-sm text-gray-600 mb-8">
-          Estos precios son estimaciones. Lo mejor es que contactes directamente con el manitas para que valore tu caso. 
-          Muchos cobran por horas (entre 15-25€/hora) o por trabajo completo, dependiendo de lo que necesites.
-        </p>
-
-        <h2 className="text-2xl font-bold mb-4">Servicios Más Solicitados</h2>
-        <ul className="list-disc pl-6 mb-8 space-y-2">
-          <li>Montaje de muebles (Ikea, Brico Depot, Leroy Merlin, Conforama...)</li>
-          <li>Colgar cuadros, espejos y estanterías (con tacos, nivelado perfecto)</li>
-          <li>Reparación e instalación de persianas (cambio de cinta, arreglo de mecanismo)</li>
-          <li>Instalación de cortinas, estores y rieles</li>
-          <li>Pequeñas reparaciones de fontanería (cambiar grifos, arreglar cisternas)</li>
-          <li>Reparaciones de carpintería (puertas que rozan, armarios descolgados)</li>
-          <li>Instalación de apliques, lámparas y pequeños electrodomésticos</li>
-          <li>Trabajos de bricolaje general (lo que se te ocurra que no sea una gran obra)</li>
-        </ul>
-
-        <p className="mb-8">
-          Si necesitas algo más específico, pregúntales. Muchos manitas también hacen pequeñas reformas, 
-          pintura de habitaciones o instalación de suelos laminados.
-        </p>
-
-        <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-8">
-          <h3 className="text-xl font-bold mb-3">Por Qué Usar Servicios Locales</h3>
-          <p className="mb-4">
-            Porque aquí el contacto es directo. Nada de plataformas que te hacen esperar días para que te llamen 
-            tres profesionales distintos y luego cobran comisión al que contrates. Nosotros te mostramos los perfiles, 
-            tú eliges y contactas. El manitas no paga nada por aparecer aquí, así que no tiene que "recuperar" ese 
-            coste subiéndote el precio.
-          </p>
-          <p className="mb-4">
-            Además, son profesionales locales de Ciudad Real y Miguelturra. Si necesitas montar una cómoda urgente 
-            porque te mudas este fin de semana, puedes llamar a alguien de la zona que te atienda rápido. Esa cercanía 
-            y disponibilidad no la consigues con plataformas nacionales que igual te mandan a alguien desde otra provincia.
-          </p>
-          <p>
-            Transparencia total: ves cómo contactar, zonas donde trabajan y, cuando las hay, opiniones de otros clientes. 
-            Tú decides, sin presiones ni intermediarios.
+          <p className="px-8 py-4 text-sm text-muted-foreground">
+            * Precios orientativos. Pueden variar según complejidad, materiales y tiempo estimado del trabajo.
           </p>
         </div>
 
-        <h2 className="text-2xl font-bold mb-4">Zonas de Cobertura en Ciudad Real</h2>
-        <p className="mb-4">Los manitas del directorio trabajan principalmente en:</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Ciudad Real capital
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Centro
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Larache
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Los Ángeles
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            El Torreón
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Pío XII
-          </div>
-          <div className="border border-gray-300 p-4 rounded text-center hover:bg-gray-50 transition">
-            Miguelturra
-          </div>
+        {/* SERVICES LIST */}
+        <div className="bg-card rounded-2xl shadow-card p-8">
+          <h2 className="font-display text-2xl font-bold text-foreground mb-6">
+            Servicios de Manitas Más Solicitados
+          </h2>
+          <ul className="space-y-3 mb-6">
+            {services.map((s, i) => (
+              <li key={i} className="flex items-center gap-3 text-foreground">
+                <Check size={18} className="text-green-500 shrink-0" />
+                <span>{s}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-muted-foreground">
+            Muchos usuarios buscan <strong className="text-primary">manitas a domicilio en Ciudad Real</strong> para trabajos que no requieren un especialista pero sí experiencia y herramientas adecuadas.
+          </p>
         </div>
-        <p className="text-sm text-gray-600 mb-8">
-          Algunos profesionales también pueden desplazarse a Poblete o localidades cercanas si el trabajo lo merece. 
-          Pregúntales directamente al llamar.
-        </p>
 
-        <h2 className="text-2xl font-bold mb-4">Preguntas Frecuentes</h2>
-        <div className="space-y-6 mb-8">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border-l-4 border-blue-500 pl-4">
-              <h3 className="font-bold text-lg mb-2">{faq.question}</h3>
-              <p className="text-gray-700">{faq.answer}</p>
+        {/* WHY CERCAPRO */}
+        <div className="bg-gradient-to-br from-secondary to-card border-2 border-primary/20 rounded-2xl p-8">
+          <h2 className="font-display text-2xl font-bold text-foreground mb-6">
+            Por Qué Usar CercaPro para Encontrar Manitas
+          </h2>
+          <div className="space-y-5">
+            <div className="flex items-start gap-4">
+              <PhoneCall size={22} className="text-primary shrink-0 mt-0.5" />
+              <p className="text-foreground">Contacto directo sin intermediarios</p>
             </div>
-          ))}
-        </div>
-
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8">
-          <h3 className="text-xl font-bold mb-2">¿Necesitas un manitas hoy?</h3>
-          <p>
-            Explora los perfiles disponibles, compara y contacta directamente. Sin intermediarios, sin comisiones. 
-            Solo profesionales locales que pueden solucionar esos pequeños arreglos que llevas semanas posponiendo.
-          </p>
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded mb-8">
-          <h3 className="font-bold mb-3">Servicios Relacionados</h3>
-          <div className="space-y-2">
-            <a href="/fontanero-ciudad-real" className="text-blue-600 hover:underline block">
-              → Fontaneros en Ciudad Real
-            </a>
-            <a href="/electricista-ciudad-real" className="text-blue-600 hover:underline block">
-              → Electricistas en Ciudad Real
-            </a>
-            <a href="/cerrajero-ciudad-real" className="text-blue-600 hover:underline block">
-              → Cerrajeros en Ciudad Real
-            </a>
+            <div className="flex items-start gap-4">
+              <BadgeCheck size={22} className="text-primary shrink-0 mt-0.5" />
+              <p className="text-foreground">Sin comisiones ocultas</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <MapPin size={22} className="text-accent shrink-0 mt-0.5" />
+              <p className="text-foreground">Profesionales locales, respuesta rápida</p>
+            </div>
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold mb-6">Manitas Disponibles en Ciudad Real</h2>
-        <ProfesionalesLista categoriaSlug="manitas" />
+        {/* COVERAGE ZONES */}
+        <div className="bg-card rounded-2xl shadow-card p-8">
+          <h2 className="font-display text-2xl font-bold text-foreground mb-6">
+            Zonas de Cobertura en Ciudad Real
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {zones.map((zone) => (
+              <div
+                key={zone}
+                className="bg-card border border-border rounded-xl p-3 flex items-center gap-2 hover:border-accent hover:scale-[1.02] transition-all cursor-default"
+              >
+                <MapPin size={16} className="text-accent shrink-0" />
+                <span className="text-foreground text-sm">{zone}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-        <p className="text-sm text-gray-500 mt-8">
-          Última actualización: 16 de febrero de 2026
-        </p>
-      </main>
-    </>
-  )
+        {/* FAQ */}
+        <FaqAccordion faqs={faqs} title="Preguntas Frecuentes sobre Manitas en Ciudad Real" />
+
+        {/* CTA BANNER */}
+        <div className="bg-gradient-to-r from-primary to-blue-700 rounded-2xl text-center p-10">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-3">
+            Encuentra Manitas Verificados en Ciudad Real
+          </h2>
+          <p className="text-white/80 mb-6">
+            Contacto directo con profesionales locales. Sin comisiones. Sin intermediarios.
+          </p>
+          <Link href="/manitas" className="inline-block bg-white text-primary font-bold px-6 py-3 rounded-xl hover:bg-secondary transition">
+            Ver Manitas Disponibles →
+          </Link>
+        </div>
+
+        {/* RELATED SERVICES */}
+        <div className="bg-card rounded-2xl border border-border p-6">
+          <h3 className="font-bold text-foreground mb-4">Servicios Relacionados</h3>
+          <div className="space-y-3">
+            {relatedServices.map((s) => (
+              <Link key={s.href} href={s.href} className="flex items-center justify-between text-primary hover:text-accent transition-colors">
+                <span>{s.label}</span>
+                <ArrowRight size={16} />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* PROFESSIONALS LIST */}
+        <div>
+          <h2 className="font-display text-2xl font-bold text-foreground mb-6">
+            Manitas Disponibles en Ciudad Real
+          </h2>
+          <ProfesionalesLista categoriaSlug="manitas" mostrarFiltros={false} />
+        </div>
+
+      </div>
+    </div>
+  );
 }
