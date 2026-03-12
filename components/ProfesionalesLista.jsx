@@ -146,7 +146,7 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
     return () => observer.disconnect();
   }, []);
 
-  const whatsappUrl = pro.whatsapp
+  const whatsappUrl = pro.whatsapp && pro.whatsapp.trim() !== ''
     ? `https://wa.me/34${pro.whatsapp.replace(/\s/g, '')}?text=Hola%20${encodeURIComponent(pro.nombre)}%2C%20te%20contacto%20desde%20CercaPro.`
     : null;
 
