@@ -2,411 +2,353 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
-import { Droplets, Zap, KeyRound, Wrench } from 'lucide-react';
+import Link from 'next/link';
+import { Droplets, Zap, KeyRound, Wrench, Phone, Mail, MapPin, BadgeCheck, ChevronDown } from 'lucide-react';
 
-const CATEGORY_ICONS = {
-  fontanero:    { icon: Droplets,  color: 'text-blue-500',    bg: '#EFF6FF' },
-  electricista: { icon: Zap,       color: 'text-yellow-500',  bg: '#FEFCE8' },
-  cerrajero:    { icon: KeyRound,  color: 'text-emerald-500', bg: '#ECFDF5' },
-  manitas:      { icon: Wrench,    color: 'text-orange-500',  bg: '#FFF7ED' },
-};
-
-// ========== FUNCIÓN DISPONIBILIDAD (SIN CAMBIOS) ==========
-function getEstadoDisponibilidad(profesional) {
-  if (profesional.disponible_24h) {
-    return { texto: 'Disponible 24h', color: 'bg-green-100 text-green-800' };
-  }
-  if (!profesional.horario_inicio || !profesional.horario_fin || !profesional.horario_texto) {
-    return null;
-  }
-  const ahora = new Date();
-  const cetOffset = 60;
-  const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000);
-  const horaCET = new Date(utc + (cetOffset * 60000));
-  const diaSemana = horaCET.getDay();
-  const horaActual = horaCET.getHours() * 60 + horaCET.getMinutes();
-  const [hIni, mIni] = profesional.horario_inicio.split(':').map(Number);
-  const [hFin, mFin] = profesional.horario_fin.split(':').map(Number);
-  const inicio = hIni * 60 + mIni;
-  const fin = hFin * 60 + mFin;
-  const finFormateado = `${String(hFin).padStart(2, '0')}:${String(mFin).padStart(2, '0')}`;
-  const inicioFormateado = `${String(hIni).padStart(2, '0')}:${String(mIni).padStart(2, '0')}`;
-  const diasTexto = profesional.horario_texto;
-  const hoyTexto = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'][diaSemana];
-  const estaAbiertoHoy = diasTexto.includes(hoyTexto);
-  if (estaAbiertoHoy && horaActual >= inicio && horaActual < fin) {
-    return { texto: `Abierto - cierra ${finFormateado}`, color: 'bg-green-100 text-green-800' };
-  }
-  if (estaAbiertoHoy) {
-    return { texto: `Abre ${inicioFormateado} hoy`, color: 'bg-orange-100 text-orange-800' };
-  }
-  return { texto: `${diasTexto} ${inicioFormateado}-${finFormateado}`, color: 'bg-gray-100 text-gray-600' };
+// ─── GA4 ──────────────────────────────────────────────────────────────────────
+function trackEvent(name, params) {
+  if (typeof window !== 'undefined' && window.gtag) window.gtag('event', name, params);
 }
 
-// ========== TARJETA PROFESIONAL — NUEVO DESIGN SYSTEM ==========
-function TarjetaProfesional({ profesional, index }) {
+// ─── Iconos categoría ─────────────────────────────────────────────────────────
+const CATEGORY_ICONS = {
+  fontanero: { icon: Droplets, color: '#3B82F6', bg: '#EFF6FF' },
+  electricista: { icon: Zap, color: '#EAB308', bg: '#FEFCE8' },
+  cerrajero: { icon: KeyRound, color: '#10B981', bg: '#ECFDF5' },
+  manitas: { icon: Wrench, color: '#F97316', bg: '#FFF7ED' },
+};
+
+// ─── Google Logo ──────────────────────────────────────────────────────────────
+function GoogleLogo() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" aria-hidden="true">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+// ─── Google Stars con medias estrellas ────────────────────────────────────────
+function GoogleStars({ rating, reviewCount }) {
+  if (!rating || rating <= 0) return null;
+  return (
+    <div className="flex items-center gap-1.5">
+      <GoogleLogo />
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: 5 }).map((_, i) => {
+          const diff = rating - i;
+          const full = diff >= 0.75;
+          const half = diff >= 0.25 && diff < 0.75;
+          return (
+            <span key={i} className="relative inline-block h-3.5 w-3.5">
+              {/* estrella vacía de fondo */}
+              <svg className="absolute inset-0 h-3.5 w-3.5" fill="none" stroke="#D1D5DB" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+              </svg>
+              {/* estrella llena o media */}
+              {(full || half) && (
+                <span className="absolute inset-0 overflow-hidden" style={{ width: full ? '100%' : '50%' }}>
+                  <svg className="h-3.5 w-3.5" fill="#FACC15" viewBox="0 0 24 24">
+                    <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                  </svg>
+                </span>
+              )}
+            </span>
+          );
+        })}
+      </div>
+      <span className="text-sm font-medium" style={{ color: '#111827' }}>{rating}</span>
+      <span className="text-sm" style={{ color: '#6B7280' }}>({reviewCount})</span>
+    </div>
+  );
+}
+
+// ─── Disponibilidad ───────────────────────────────────────────────────────────
+function getEstadoDisponibilidad(pro) {
+  if (pro.disponible_24h) return { status: '24h', label: '24h', schedule: 'Siempre disponible' };
+  const ahora = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+  const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+  const inicio = parseInt(String(pro.horario_inicio || '09:00').split(':')[0]) * 60 +
+    parseInt(String(pro.horario_inicio || '09:00').split(':')[1] || '0');
+  const fin = parseInt(String(pro.horario_fin || '18:00').split(':')[0]) * 60 +
+    parseInt(String(pro.horario_fin || '18:00').split(':')[1] || '0');
+  const abierto = horaActual >= inicio && horaActual < fin;
+  return {
+    status: abierto ? 'open' : 'closed',
+    label: abierto ? 'Abierto' : 'Cerrado',
+    schedule: pro.horario_texto || 'Lun-Vie 9:00-18:00',
+  };
+}
+
+// ─── Badge disponibilidad ─────────────────────────────────────────────────────
+function StatusBadge({ pro }) {
+  const [estado, setEstado] = useState(null);
+  useEffect(() => { setEstado(getEstadoDisponibilidad(pro)); }, [pro]);
+  if (!estado) return null;
+
+  if (estado.status === '24h') return (
+    <div className="flex items-center gap-2 shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
+        24h
+      </span>
+      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+    </div>
+  );
+  if (estado.status === 'open') return (
+    <div className="flex items-center gap-2 shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#F0FDF4', color: '#15803D' }}>
+        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+        Abierto
+      </span>
+      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+    </div>
+  );
+  return (
+    <div className="flex items-center gap-2 shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#FEF2F2', color: '#DC2626' }}>
+        <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+        Cerrado
+      </span>
+      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+    </div>
+  );
+}
+
+// ─── WhatsApp SVG ─────────────────────────────────────────────────────────────
+function WhatsAppIcon() {
+  return (
+    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
+
+// ─── Tarjeta individual ───────────────────────────────────────────────────────
+function TarjetaProfesional({ pro, categoriaSlug, index }) {
+  const cardRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
+  const slug = categoriaSlug || pro.categorias?.slug || 'manitas';
+  const catCfg = CATEGORY_ICONS[slug] || { icon: Wrench, color: '#6B7280', bg: '#F9FAFB' };
+  const IconComponent = catCfg.icon;
+  const catNombre = pro.categorias?.nombre || (slug.charAt(0).toUpperCase() + slug.slice(1));
 
   useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.unobserve(el); } },
       { threshold: 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const badgeDisponibilidad = (() => {
-    const ahoraCET = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
-    const horaActual = ahoraCET.getHours() * 60 + ahoraCET.getMinutes();
-    const [hIni] = (profesional.horario_inicio || '').split(':').map(Number);
-    const [hFin] = (profesional.horario_fin || '').split(':').map(Number);
-    const estaAbierto = profesional.disponible_24h || (profesional.horario_inicio && horaActual >= hIni * 60 && horaActual < hFin * 60);
-    const horario = profesional.disponible_24h ? '24h' : profesional.horario_texto || null;
-    if (!profesional.disponible_24h && !profesional.horario_inicio) return null;
-    return { estaAbierto, horario };
-  })();
-
-  // ← ÚNICO CAMBIO: resolver icono lucide por slug
-  const catIcon = CATEGORY_ICONS[profesional.categorias?.slug] || { icon: Wrench, color: 'text-gray-400', bg: '#F9FAFB' };
-  const IconComponent = catIcon.icon;
+  const whatsappUrl = pro.whatsapp
+    ? `https://wa.me/34${pro.whatsapp.replace(/\s/g, '')}?text=Hola%20${encodeURIComponent(pro.nombre)}%2C%20te%20contacto%20desde%20CercaPro.`
+    : null;
 
   return (
     <div
-      ref={ref}
-      className={`
-        bg-white rounded-2xl border border-[#E2E8F0] p-6
-        transition-all duration-700 ease-out
-        hover:-translate-y-1
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-      `}
+      ref={cardRef}
+      className="rounded-2xl border bg-card transition-all duration-700 ease-out"
       style={{
-        transitionDelay: `${index * 80}ms`,
+        borderColor: 'var(--color-border, #E5E7EB)',
         boxShadow: '0 2px 12px rgba(30,58,138,0.07)',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+        transitionDelay: isVisible ? `${index * 80}ms` : '0ms',
       }}
-      onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px rgba(30,58,138,0.13)'}
-      onMouseLeave={e => e.currentTarget.style.boxShadow = '0 2px 12px rgba(30,58,138,0.07)'}
+      onMouseEnter={e => {
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(30,58,138,0.13)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.boxShadow = '0 2px 12px rgba(30,58,138,0.07)';
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}
     >
-      <div className="flex items-start gap-4">
-
-        {/* Icono categoría — lucide-react, igual que homepage */}
-        <div
-          className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
-          style={{ background: catIcon.bg }}
-        >
-          <IconComponent className={`h-7 w-7 ${catIcon.color}`} />
-        </div>
-
-        <div className="flex-1 min-w-0">
-
-          {/* Fila superior: nombre + badge disponibilidad */}
-          <div className="flex items-start justify-between gap-2 mb-1 flex-wrap">
-            <h2 className="text-xl font-bold text-[#111827] leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              {profesional.nombre}
-            </h2>
-
-            {badgeDisponibilidad && (
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${badgeDisponibilidad.estaAbierto ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-700'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${badgeDisponibilidad.estaAbierto ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                  {badgeDisponibilidad.estaAbierto ? 'Abierto' : 'Cerrado'}
+      {/* Info principal */}
+      <div className="p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start gap-4 min-w-0">
+            {/* Icono */}
+            <div className="h-14 w-14 shrink-0 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
+              style={{ background: catCfg.bg }}>
+              <IconComponent style={{ color: catCfg.color }} className="h-7 w-7" />
+            </div>
+            <div className="min-w-0">
+              {/* Nombre + verificado */}
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-foreground">
+                  {pro.nombre}
+                </h3>
+                <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
+              </div>
+              {/* Badge categoría + Google stars */}
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                <span className="inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold"
+                  style={{ background: 'rgba(30,58,138,0.1)', color: '#1E3A8A' }}>
+                  {catNombre}
                 </span>
-                {badgeDisponibilidad.horario && (
-                  <span className="text-xs text-[#6B7280]">{badgeDisponibilidad.horario}</span>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Categoría + Google Stars */}
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span
-              className="text-sm font-semibold px-2.5 py-0.5 rounded-full"
-              style={{ background: '#EFF6FF', color: '#1E3A8A' }}
-            >
-              {profesional.categorias?.nombre || 'Sin categoría'}
-            </span>
-
-            {profesional.google_rating > 0 && (
-              <div className="flex items-center gap-1">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                </svg>
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => {
-                    const rating = profesional.google_rating;
-                    const fullStars = Math.floor(rating);
-                    const decimal = rating - fullStars;
-                    const filled = star <= fullStars || (decimal >= 0.75 && star === fullStars + 1);
-                    const half = !filled && decimal >= 0.25 && decimal < 0.75 && star === fullStars + 1;
-                    if (filled) return <span key={star} className="text-xs text-yellow-400">★</span>;
-                    if (half) return (
-                      <span key={star} className="text-xs relative inline-block">
-                        <span className="text-gray-300">★</span>
-                        <span className="absolute inset-0 overflow-hidden w-[50%] text-yellow-400">★</span>
-                      </span>
-                    );
-                    return <span key={star} className="text-xs text-gray-300">★</span>;
-                  })}
-                </div>
-                <span className="text-xs font-semibold text-[#374151]">{profesional.google_rating.toFixed(1)}</span>
-                {profesional.google_reviews > 0 && (
-                  <span className="text-xs text-[#9CA3AF]">({profesional.google_reviews})</span>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Descripción */}
-          {profesional.descripcion && (
-            <p className="text-sm text-[#6B7280] mb-3 leading-relaxed">
-              {profesional.descripcion}
-            </p>
-          )}
-
-          {/* Ciudad */}
-          <p className="flex items-center gap-1.5 text-sm text-[#6B7280] mb-3">
-            <span style={{ color: '#F97316' }}>📍</span>
-            <span>{profesional.ciudad}</span>
-          </p>
-
-          {/* Separador */}
-          <div className="border-t border-[#F3F4F6] pt-3">
-            <div className="flex items-center justify-between flex-wrap gap-3">
-
-              {/* Teléfono */}
-              <a
-                href={`tel:${profesional.telefono?.replace(/\s/g, '')}`}
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'click_telefono', {
-                      profesional_nombre: profesional.nombre,
-                      profesional_id: profesional.id,
-                      categoria: profesional.categorias?.nombre,
-                      ciudad: profesional.ciudad
-                    });
-                  }
-                }}
-                className="flex items-center gap-2 text-sm font-bold transition-colors"
-                style={{ color: '#1E3A8A' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#F97316'}
-                onMouseLeave={e => e.currentTarget.style.color = '#1E3A8A'}
-              >
-                📞 {profesional.telefono}
-              </a>
-
-              {/* Botones Email + WhatsApp */}
-              <div className="flex gap-2">
-                {profesional.email && (
-                  <a
-                    href={`mailto:${profesional.email}?subject=Consulta desde CercaPro&body=Hola ${profesional.nombre},%0A%0ASoy [tu nombre] de ${profesional.ciudad}.%0A%0ATe contacto desde CercaPro.%0A%0AConsulta:%0A`}
-                    onClick={() => {
-                      if (typeof window !== 'undefined' && window.gtag) {
-                        window.gtag('event', 'click_email', {
-                          profesional_nombre: profesional.nombre,
-                          profesional_id: profesional.id,
-                          categoria: profesional.categorias?.nombre
-                        });
-                      }
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.03]"
-                    style={{ background: '#1E3A8A' }}
-                  >
-                    ✉️ Email
-                  </a>
-                )}
-
-                {profesional.whatsapp && (
-                  <a
-                    href={`https://wa.me/${profesional.whatsapp.replace(/\D/g, '')}?text=Hola ${encodeURIComponent(profesional.nombre)}, te contacto desde CercaPro.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => {
-                      if (typeof window !== 'undefined' && window.gtag) {
-                        window.gtag('event', 'click_whatsapp', {
-                          profesional_nombre: profesional.nombre,
-                          profesional_id: profesional.id,
-                          categoria: profesional.categorias?.nombre,
-                          ciudad: profesional.ciudad
-                        });
-                      }
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.03] bg-green-500 hover:bg-green-600"
-                  >
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.856L.057 23.617a.75.75 0 00.921.921l5.761-1.476A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.715 9.715 0 01-4.964-1.361l-.355-.213-3.684.944.981-3.586-.233-.369A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" />
-                    </svg>
-                    WhatsApp
-                  </a>
-                )}
+                <GoogleStars rating={pro.google_rating} reviewCount={pro.google_reviews} />
               </div>
             </div>
           </div>
+          {/* Badge disponibilidad */}
+          <StatusBadge pro={pro} />
+        </div>
 
+        {/* Descripción */}
+        {pro.descripcion && (
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            {pro.descripcion}
+          </p>
+        )}
+
+        {/* Ciudad */}
+        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5 text-accent shrink-0" />
+          {pro.ciudad}
+        </div>
+      </div>
+
+      {/* Footer contacto */}
+      <div className="border-t border-border px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
+        {/* Teléfono */}
+        <a
+          href={`tel:${pro.telefono?.replace(/\s/g, '')}`}
+          onClick={() => trackEvent('click_telefono', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug, ciudad: pro.ciudad })}
+          className="inline-flex items-center gap-2 text-sm font-bold transition-colors text-primary hover:text-accent"
+        >
+          <Phone className="h-4 w-4 text-accent" />
+          {pro.telefono}
+        </a>
+
+        {/* Botones */}
+        <div className="flex items-center gap-2">
+          {whatsappUrl && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('click_whatsapp', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug, ciudad: pro.ciudad })}
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors"
+              style={{ background: '#25D366' }}
+            >
+              <WhatsAppIcon />
+              WhatsApp
+            </a>
+          )}
+          {pro.email && (
+            <a
+              href={`mailto:${pro.email}?subject=Solicitud de servicio via CercaPro&body=Hola ${pro.nombre}, te contacto desde CercaPro.`}
+              onClick={() => trackEvent('click_email', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug })}
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors"
+              style={{ background: '#1E3A8A' }}
+            >
+              <Mail className="h-4 w-4" />
+              Email
+            </a>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// ========== COMPONENTE PRINCIPAL (SIN CAMBIOS EN LÓGICA) ==========
-export default function ProfesionalesLista({ categoriaSlug = null, mostrarFiltros = true }) {
+// ─── Componente principal ─────────────────────────────────────────────────────
+export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = true }) {
   const [profesionales, setProfesionales] = useState([]);
-  const [profesionalesFiltrados, setProfesionalesFiltrados] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoriaSlug || 'todas');
-  const [ciudadSeleccionada, setCiudadSeleccionada] = useState('todas');
-  const [categorias, setCategorias] = useState([]);
+  const [ciudadFiltro, setCiudadFiltro] = useState('todas');
   const [ciudades, setCiudades] = useState([]);
 
   useEffect(() => {
-    async function load() {
+    async function fetchProfesionales() {
+      setLoading(true);
       let query = supabase
         .from('Profesionales')
-        .select(`*, categorias(nombre, icono, slug), disponible_24h, horario_inicio, horario_fin, horario_texto`)
+        .select('*, categorias(nombre, icono, slug), disponible_24h, horario_inicio, horario_fin, horario_texto, google_rating, google_reviews')
         .order('nombre');
 
       if (categoriaSlug) {
         const { data: catData } = await supabase
-          .from('categorias')
-          .select('id')
-          .eq('slug', categoriaSlug)
-          .single();
+          .from('categorias').select('id').eq('slug', categoriaSlug).single();
         if (catData) query = query.eq('categoria_id', catData.id);
       }
 
-      const { data: prosData, error: prosError } = await query;
-      if (prosError) {
-        console.error('Error cargando profesionales:', prosError);
-      } else {
-        setProfesionales(prosData || []);
-        setProfesionalesFiltrados(prosData || []);
-        const ciudadesUnicas = [...new Set(prosData.map(p => p.ciudad))].sort();
-        setCiudades(ciudadesUnicas);
+      const { data, error } = await query;
+      if (!error && data) {
+        setProfesionales(data);
+        const uniqueCiudades = [...new Set(data.map(p => p.ciudad))].filter(Boolean).sort();
+        setCiudades(uniqueCiudades);
       }
-
-      const { data: catsData, error: catsError } = await supabase
-        .from('categorias').select('*').order('nombre');
-      if (!catsError) setCategorias(catsData || []);
-
       setLoading(false);
     }
-    load();
+    fetchProfesionales();
   }, [categoriaSlug]);
 
+  // Sort abiertos primero
+  const [filtrados, setFiltrados] = useState([]);
   useEffect(() => {
-    let resultado = [...profesionales];
-
-    const ahoraCET = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
-    const horaActual = ahoraCET.getHours() * 60 + ahoraCET.getMinutes();
-
-    resultado.sort((a, b) => {
-      const abiertoA = a.disponible_24h || (a.horario_inicio && horaActual >= parseInt(a.horario_inicio) * 60 && horaActual < parseInt(a.horario_fin) * 60);
-      const abiertoB = b.disponible_24h || (b.horario_inicio && horaActual >= parseInt(b.horario_inicio) * 60 && horaActual < parseInt(b.horario_fin) * 60);
-      return abiertoB - abiertoA;
+    const base = ciudadFiltro === 'todas' ? profesionales : profesionales.filter(p => p.ciudad === ciudadFiltro);
+    const sorted = [...base].sort((a, b) => {
+      const ea = getEstadoDisponibilidad(a);
+      const eb = getEstadoDisponibilidad(b);
+      const rank = s => s.status === '24h' ? 0 : s.status === 'open' ? 1 : 2;
+      return rank(ea) - rank(eb);
     });
+    setFiltrados(sorted);
+  }, [profesionales, ciudadFiltro]);
 
-    if (categoriaSeleccionada !== 'todas' && !categoriaSlug) {
-      resultado = resultado.filter(p => p.categorias?.nombre === categoriaSeleccionada);
-    }
-    if (ciudadSeleccionada !== 'todas') {
-      resultado = resultado.filter(p => p.ciudad === ciudadSeleccionada);
-    }
-
-    setProfesionalesFiltrados(resultado);
-  }, [categoriaSeleccionada, ciudadSeleccionada, profesionales, categoriaSlug]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-16">
-        <div className="text-center">
-          <div className="w-12 h-12 rounded-full border-2 border-[#E2E8F0] border-t-[#1E3A8A] animate-spin mx-auto mb-4"></div>
-          <p className="text-sm text-[#6B7280]">Cargando profesionales...</p>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="flex justify-center py-12">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+    </div>
+  );
 
   return (
     <div>
-      {mostrarFiltros && (
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 mb-6" style={{ boxShadow: '0 2px 12px rgba(30,58,138,0.06)' }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            {!categoriaSlug && (
-              <div>
-                <label className="block text-xs font-semibold text-[#374151] mb-1.5 uppercase tracking-wide">
-                  Categoría
-                </label>
-                <select
-                  value={categoriaSeleccionada}
-                  onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-                  className="w-full px-3 py-2.5 text-sm border border-[#E2E8F0] rounded-lg bg-[#F9FAFB] text-[#111827] focus:outline-none focus:ring-2 focus:border-transparent transition-all"
-                >
-                  <option value="todas">Todas las categorías</option>
-                  {categorias.map((cat) => (
-                    <option key={cat.id} value={cat.nombre}>
-                      {cat.icono} {cat.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div>
-              <label className="block text-xs font-semibold text-[#374151] mb-1.5 uppercase tracking-wide">
-                Ciudad
-              </label>
-              <select
-                value={ciudadSeleccionada}
-                onChange={(e) => setCiudadSeleccionada(e.target.value)}
-                className="w-full px-3 py-2.5 text-sm border border-[#E2E8F0] rounded-lg bg-[#F9FAFB] text-[#111827] focus:outline-none focus:ring-2 focus:border-transparent transition-all"
-              >
-                <option value="todas">Todas las ciudades</option>
-                {ciudades.map((ciudad) => (
-                  <option key={ciudad} value={ciudad}>{ciudad}</option>
-                ))}
-              </select>
-            </div>
-          </div>
 
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-[#6B7280]">
-              <span className="font-bold" style={{ color: '#1E3A8A' }}>{profesionalesFiltrados.length}</span> profesionales encontrados
-            </p>
-            {(categoriaSeleccionada !== 'todas' || ciudadSeleccionada !== 'todas') && !categoriaSlug && (
-              <button
-                onClick={() => { setCategoriaSeleccionada('todas'); setCiudadSeleccionada('todas'); }}
-                className="text-xs font-semibold transition-colors"
-                style={{ color: '#F97316' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#EA580C'}
-                onMouseLeave={e => e.currentTarget.style.color = '#F97316'}
-              >
-                Limpiar filtros ✕
-              </button>
-            )}
+      {/* Filtro ciudad */}
+      {mostrarFiltros && ciudades.length > 1 && (
+        <div className="mb-6">
+          <label className="block text-xs font-semibold uppercase tracking-wide mb-2 text-muted-foreground">
+            Ciudad
+          </label>
+          <div className="relative w-full sm:w-64">
+            <select
+              value={ciudadFiltro}
+              onChange={e => setCiudadFiltro(e.target.value)}
+              className="w-full appearance-none rounded-xl border border-border bg-card px-4 py-2.5 pr-10 text-sm font-medium text-foreground"
+            >
+              <option value="todas">Todas las ciudades</option>
+              {ciudades.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           </div>
         </div>
       )}
 
-      {profesionalesFiltrados.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
-          <p className="text-[#9CA3AF] text-base">No se encontraron profesionales con estos filtros.</p>
-          <button
-            onClick={() => { setCategoriaSeleccionada('todas'); setCiudadSeleccionada('todas'); }}
-            className="mt-3 text-sm font-semibold"
-            style={{ color: '#1E3A8A' }}
-          >
-            Ver todos →
-          </button>
+      {/* Contador */}
+      {mostrarFiltros && (
+        <p className="mb-5 text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">{filtrados.length}</span> profesionales encontrados
+        </p>
+      )}
+
+      {/* Grid */}
+      {filtrados.length === 0 ? (
+        <div className="py-12 text-center rounded-2xl border border-border text-muted-foreground">
+          No hay profesionales en esta ciudad aún.
         </div>
       ) : (
-        <div className="space-y-4">
-          {profesionalesFiltrados.map((prof, index) => (
-            <TarjetaProfesional key={prof.id} profesional={prof} index={index} />
+        <div className="grid gap-5">
+          {filtrados.map((pro, i) => (
+            <TarjetaProfesional key={pro.id} pro={pro} categoriaSlug={categoriaSlug} index={i} />
           ))}
         </div>
       )}
