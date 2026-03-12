@@ -47,7 +47,7 @@ export default function FooterCercaPro() {
           <div>
             <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider opacity-50">Contacto</h4>
             <p className="text-sm opacity-70">Ciudad Real, España</p>
-            <p className="mt-1 text-sm opacity-70">info@cercapro.es</p>
+            <p className="mt-1 text-sm opacity-70">hola@cercapro.es</p>
           </div>
         </div>
 
