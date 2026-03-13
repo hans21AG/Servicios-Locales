@@ -98,7 +98,7 @@ function StatusBadge({ pro }) {
     </div>
   );
   if (estado.status === 'open') return (
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 shrink-0">
       <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#F0FDF4', color: '#15803D' }}>
         <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
         Abierto
@@ -107,7 +107,7 @@ function StatusBadge({ pro }) {
     </div>
   );
   return (
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 shrink-0">
       <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#FEF2F2', color: '#DC2626' }}>
         <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
         Cerrado
