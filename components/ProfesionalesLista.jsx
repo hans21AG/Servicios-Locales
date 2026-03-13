@@ -94,7 +94,7 @@ function StatusBadge({ pro }) {
         <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
         24h
       </span>
-      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+      <span className="text-xs" style={{ color: '#6B7280' }}>{estado.schedule}</span>
     </div>
   );
   if (estado.status === 'open') return (
@@ -103,7 +103,7 @@ function StatusBadge({ pro }) {
         <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
         Abierto
       </span>
-      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+      <span className="text-xs" style={{ color: '#6B7280' }}>{estado.schedule}</span>
     </div>
   );
   return (
@@ -112,7 +112,7 @@ function StatusBadge({ pro }) {
         <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
         Cerrado
       </span>
-      <span className="text-xs hidden sm:inline" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+      <span className="text-xs" style={{ color: '#6B7280' }}>{estado.schedule}</span>
     </div>
   );
 }
