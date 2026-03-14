@@ -88,31 +88,43 @@ function StatusBadge({ pro }) {
   useEffect(() => { setEstado(getEstadoDisponibilidad(pro)); }, [pro]);
   if (!estado) return null;
 
+  const ScheduleText = () => (
+    <span className="text-xs" style={{ color: '#6B7280' }}>
+      {estado.schedule.split(' | ').map((line, i) => (
+        <span key={i} className="block">{line}</span>
+      ))}
+    </span>
+  );
+
   if (estado.status === '24h') return (
-    <div className="flex items-center gap-2 shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
+    <div className="shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+        style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
         <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
         24h
       </span>
-      <span className="text-xs" style={{ color: '#6B7280' }}>{estado.schedule}</span>
     </div>
   );
+
   if (estado.status === 'open') return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#F0FDF4', color: '#15803D' }}>
+    <div className="shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+        style={{ background: '#F0FDF4', color: '#15803D' }}>
         <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
         Abierto
       </span>
-      <span className="text-xs whitespace-pre-line" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+      <ScheduleText />
     </div>
   );
+
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#FEF2F2', color: '#DC2626' }}>
+    <div className="shrink-0">
+      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+        style={{ background: '#FEF2F2', color: '#DC2626' }}>
         <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
         Cerrado
       </span>
-      <span className="text-xs whitespace-pre-line" style={{ color: '#6B7280' }}>{estado.schedule}</span>
+      <ScheduleText />
     </div>
   );
 }
@@ -172,33 +184,31 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
     >
       {/* Info principal */}
       <div className="p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4 min-w-0">
-            {/* Icono */}
-            <div className="h-14 w-14 shrink-0 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
-              style={{ background: catCfg.bg }}>
-              <IconComponent style={{ color: catCfg.color }} className="h-7 w-7" />
+        <div className="flex items-start gap-4">
+          {/* Icono */}
+          <div className="h-14 w-14 shrink-0 rounded-xl flex items-center justify-center"
+            style={{ background: catCfg.bg }}>
+            <IconComponent style={{ color: catCfg.color }} className="h-7 w-7" />
+          </div>
+          <div className="flex-1 min-w-0">
+            {/* Nombre + verificado */}
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-bold text-foreground">{pro.nombre}</h3>
+              <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
             </div>
-            <div className="min-w-0">
-              {/* Nombre + verificado */}
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-foreground">
-                  {pro.nombre}
-                </h3>
-                <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
-              </div>
-              {/* Badge categoría + Google stars */}
-              <div className="mt-1 flex flex-wrap items-center gap-2">
-                <span className="inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold"
-                  style={{ background: 'rgba(30,58,138,0.1)', color: '#1E3A8A' }}>
-                  {catNombre}
-                </span>
-                <GoogleStars rating={pro.google_rating} reviewCount={pro.google_reviews} />
-              </div>
+            {/* Badge categoría + Google stars */}
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <span className="inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold"
+                style={{ background: 'rgba(30,58,138,0.1)', color: '#1E3A8A' }}>
+                {catNombre}
+              </span>
+              <GoogleStars rating={pro.google_rating} reviewCount={pro.google_reviews} />
+            </div>
+            {/* Disponibilidad DEBAJO del nombre — nunca choca */}
+            <div className="mt-2">
+              <StatusBadge pro={pro} />
             </div>
           </div>
-          {/* Badge disponibilidad */}
-          <StatusBadge pro={pro} />
         </div>
 
         {/* Descripción */}
