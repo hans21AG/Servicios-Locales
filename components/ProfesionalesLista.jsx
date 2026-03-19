@@ -83,48 +83,71 @@ function getEstadoDisponibilidad(pro) {
 }
 
 // ─── Badge disponibilidad ─────────────────────────────────────────────────────
-function StatusBadge({ pro }) {
-  const [estado, setEstado] = useState(null);
-  useEffect(() => { setEstado(getEstadoDisponibilidad(pro)); }, [pro]);
-  if (!estado) return null;
+function StatusBadge({ status, schedule }) {
+  const [expanded, setExpanded] = useState(false);
+  const scheduleLines = schedule ? schedule.split('|').map(s => s.trim()) : [];
 
-  const ScheduleText = () => (
-    <span className="text-xs text-right" style={{ color: '#6B7280', maxWidth: '110px', display: 'block' }}>
-      {estado.schedule.split(' | ').map((line, i) => (
-        <span key={i} className="block">{line}</span>
-      ))}
-    </span>
-  );
+  if (status === '24h') {
+    return (
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold text-[#1D4ED8]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#1D4ED8] animate-pulse" />
+          24h
+        </span>
+      </div>
+    );
+  }
 
-  if (estado.status === '24h') return (
-    <div className="flex flex-col items-end shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-        style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
-        <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-        24h
-      </span>
-    </div>
-  );
+  const pillClasses = status === 'open'
+    ? 'bg-[#F0FDF4] text-[#15803D]'
+    : 'bg-[#FEF2F2] text-[#DC2626]';
 
-  if (estado.status === 'open') return (
-    <div className="flex flex-col items-end shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-        style={{ background: '#F0FDF4', color: '#15803D' }}>
-        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-        Abierto
-      </span>
-      <ScheduleText />
-    </div>
-  );
+  const dotClasses = status === 'open'
+    ? 'bg-[#15803D]'
+    : 'bg-[#DC2626]';
+
+  const label = status === 'open' ? 'Abierto' : 'Cerrado';
 
   return (
-    <div className="flex flex-col items-end shrink-0">
-      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-        style={{ background: '#FEF2F2', color: '#DC2626' }}>
-        <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
-        Cerrado
+    <div className="flex flex-col items-end shrink-0 gap-1">
+      {/* Badge pill */}
+      <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${pillClasses}`}>
+        <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`} />
+        {label}
       </span>
-      <ScheduleText />
+
+      {/* Horario siempre visible en desktop */}
+      {scheduleLines.length > 0 && (
+        <span className="text-xs text-[#6B7280] text-right hidden sm:block leading-relaxed">
+          {scheduleLines.map((line, i) => (
+            <span key={i} className="block">{line}</span>
+          ))}
+        </span>
+      )}
+
+      {/* Ver horario colapsable solo en móvil */}
+      {scheduleLines.length > 0 && (
+        <div className="sm:hidden flex flex-col items-end">
+          <button
+            onClick={() => setExpanded(prev => !prev)}
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#F97316] hover:text-[#EA580C] transition-colors py-0.5 px-1 -mr-1"
+            aria-expanded={expanded}
+          >
+            Ver horario
+            <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+          </button>
+
+          <div className={`overflow-hidden transition-all duration-300 ease-out ${expanded ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className="rounded-lg bg-[#F9FAFB] border border-[#E5E7EB] px-3 py-2 mt-0.5">
+              {scheduleLines.map((line, i) => (
+                <p key={i} className="text-[11px] text-[#6B7280] text-right leading-relaxed whitespace-nowrap">
+                  {line}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
