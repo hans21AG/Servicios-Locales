@@ -124,7 +124,7 @@ function StatusBadge({ pro }) {
       {scheduleLines.length > 0 && (
         <span className="hidden sm:block text-xs text-right text-[#6B7280] leading-relaxed">
           {scheduleLines.map((line, i) => (
-            <span key={i} className="block">{line}</span>
+            <span key={i} className="block whitespace-nowrap">{line}</span>
           ))}
         </span>
       )}
