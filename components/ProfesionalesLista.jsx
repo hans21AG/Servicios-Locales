@@ -83,11 +83,16 @@ function getEstadoDisponibilidad(pro) {
 }
 
 // ─── Badge disponibilidad ─────────────────────────────────────────────────────
-function StatusBadge({ status, schedule }) {
+function StatusBadge({ pro }) {
   const [expanded, setExpanded] = useState(false);
-  const scheduleLines = schedule ? schedule.split('|').map(s => s.trim()) : [];
+  const [estado, setEstado] = useState(null);
 
-  if (status === '24h') {
+  useEffect(() => { setEstado(getEstadoDisponibilidad(pro)); }, [pro]);
+  if (!estado) return null;
+
+  const scheduleLines = estado.schedule ? estado.schedule.split('|').map(s => s.trim()) : [];
+
+  if (estado.status === '24h') {
     return (
       <div className="flex items-center gap-2 shrink-0">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold text-[#1D4ED8]">
@@ -98,19 +103,18 @@ function StatusBadge({ status, schedule }) {
     );
   }
 
-  const pillClasses = status === 'open'
+  const pillClasses = estado.status === 'open'
     ? 'bg-[#F0FDF4] text-[#15803D]'
     : 'bg-[#FEF2F2] text-[#DC2626]';
 
-  const dotClasses = status === 'open'
+  const dotClasses = estado.status === 'open'
     ? 'bg-[#15803D]'
     : 'bg-[#DC2626]';
 
-  const label = status === 'open' ? 'Abierto' : 'Cerrado';
+  const label = estado.status === 'open' ? 'Abierto' : 'Cerrado';
 
   return (
     <div className="flex flex-col items-end shrink-0 gap-1">
-      {/* Badge pill */}
       <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${pillClasses}`}>
         <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`} />
         {label}
@@ -118,7 +122,7 @@ function StatusBadge({ status, schedule }) {
 
       {/* Horario siempre visible en desktop */}
       {scheduleLines.length > 0 && (
-        <span className="text-xs text-[#6B7280] text-right hidden sm:block leading-relaxed">
+        <span className="hidden sm:block text-xs text-right text-[#6B7280] leading-relaxed">
           {scheduleLines.map((line, i) => (
             <span key={i} className="block">{line}</span>
           ))}
@@ -131,7 +135,6 @@ function StatusBadge({ status, schedule }) {
           <button
             onClick={() => setExpanded(prev => !prev)}
             className="inline-flex items-center gap-1 text-[11px] font-medium text-[#F97316] hover:text-[#EA580C] transition-colors py-0.5 px-1 -mr-1"
-            aria-expanded={expanded}
           >
             Ver horario
             <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
