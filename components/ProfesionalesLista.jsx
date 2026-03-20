@@ -120,15 +120,6 @@ function StatusBadge({ pro }) {
         {label}
       </span>
 
-      {/* Horario siempre visible en desktop */}
-      {scheduleLines.length > 0 && (
-        <span className="hidden sm:block text-xs text-right text-[#6B7280] leading-relaxed">
-          {scheduleLines.map((line, i) => (
-            <span key={i} className="block whitespace-nowrap">{line}</span>
-          ))}
-        </span>
-      )}
-
       {/* Ver horario colapsable solo en móvil */}
       {scheduleLines.length > 0 && (
         <div className="sm:hidden flex flex-col items-end">
@@ -209,16 +200,16 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
       }}
     >
       {/* Info principal */}
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0">
-            <div className="h-14 w-14 shrink-0 rounded-xl flex items-center justify-center"
+            <div className="h-10 w-10 sm:h-14 sm:w-14 shrink-0 rounded-xl flex items-center justify-center"
               style={{ background: catCfg.bg }}>
-              <IconComponent style={{ color: catCfg.color }} className="h-7 w-7" />
+              <IconComponent style={{ color: catCfg.color }} className="h-5 w-5 sm:h-7 sm:w-7" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-foreground">{pro.nombre}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-foreground">{pro.nombre}</h3>
                 <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -248,7 +239,7 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
       </div>
 
       {/* Footer contacto */}
-      <div className="border-t border-border px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
+      <div className="border-t border-border px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 flex-wrap">
         {/* Teléfono */}
         <a
           href={`tel:${pro.telefono?.replace(/\s/g, '')}`}
@@ -343,7 +334,7 @@ export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = tru
   );
 
   return (
-    <div>
+    <div className="w-full overflow-hidden">
 
       {/* Filtro ciudad */}
       {mostrarFiltros && ciudades.length > 1 && (
