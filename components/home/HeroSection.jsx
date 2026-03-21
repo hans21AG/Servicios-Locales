@@ -27,12 +27,19 @@ function AnimatedCounter({ target, label, suffix = '+' }) {
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-hero-gradient py-20 lg:py-28">
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, hsl(213 37% 15%) 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-      <div className="relative mx-auto max-w-6xl px-4 text-center">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 1px 1px, hsl(213 37% 15%) 1px, transparent 0)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 text-center">
         <span className="inline-block rounded-full border border-border bg-white px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
           🏠 Directorio de profesionales en Ciudad Real
         </span>
-        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="mx-auto mt-6 max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
           Encuentra profesionales{' '}
           <span className="text-gradient">de confianza</span>{' '}
           cerca de ti

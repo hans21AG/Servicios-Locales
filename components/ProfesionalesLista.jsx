@@ -3,11 +3,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
-import { Droplets, Zap, KeyRound, Wrench, Phone, Mail, MapPin, BadgeCheck, ChevronDown } from 'lucide-react';
+import {
+  Droplets,
+  Zap,
+  KeyRound,
+  Wrench,
+  Phone,
+  Mail,
+  MapPin,
+  BadgeCheck,
+  ChevronDown,
+} from 'lucide-react';
 
 // ─── GA4 ──────────────────────────────────────────────────────────────────────
 function trackEvent(name, params) {
-  if (typeof window !== 'undefined' && window.gtag) window.gtag('event', name, params);
+  if (typeof window !== 'undefined' && window.gtag)
+    window.gtag('event', name, params);
 }
 
 // ─── Iconos categoría ─────────────────────────────────────────────────────────
@@ -22,10 +33,22 @@ const CATEGORY_ICONS = {
 function GoogleLogo() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" aria-hidden="true">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+      <path
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+        fill="#4285F4"
+      />
+      <path
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+        fill="#34A853"
+      />
+      <path
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+        fill="#FBBC05"
+      />
+      <path
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+        fill="#EA4335"
+      />
     </svg>
   );
 }
@@ -44,13 +67,30 @@ function GoogleStars({ rating, reviewCount }) {
           return (
             <span key={i} className="relative inline-block h-3.5 w-3.5">
               {/* estrella vacía de fondo */}
-              <svg className="absolute inset-0 h-3.5 w-3.5" fill="none" stroke="#D1D5DB" strokeWidth={1.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+              <svg
+                className="absolute inset-0 h-3.5 w-3.5"
+                fill="none"
+                stroke="#D1D5DB"
+                strokeWidth={1.5}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
               </svg>
               {/* estrella llena o media */}
               {(full || half) && (
-                <span className="absolute inset-0 overflow-hidden" style={{ width: full ? '100%' : '50%' }}>
-                  <svg className="h-3.5 w-3.5" fill="#FACC15" viewBox="0 0 24 24">
+                <span
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ width: full ? '100%' : '50%' }}
+                >
+                  <svg
+                    className="h-3.5 w-3.5"
+                    fill="#FACC15"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                   </svg>
                 </span>
@@ -59,20 +99,29 @@ function GoogleStars({ rating, reviewCount }) {
           );
         })}
       </div>
-      <span className="text-sm font-medium" style={{ color: '#111827' }}>{rating}</span>
-      <span className="text-sm" style={{ color: '#6B7280' }}>({reviewCount})</span>
+      <span className="text-sm font-medium" style={{ color: '#111827' }}>
+        {rating}
+      </span>
+      <span className="text-sm" style={{ color: '#6B7280' }}>
+        ({reviewCount})
+      </span>
     </div>
   );
 }
 
 // ─── Disponibilidad ───────────────────────────────────────────────────────────
 function getEstadoDisponibilidad(pro) {
-  if (pro.disponible_24h) return { status: '24h', label: '24h', schedule: 'Siempre disponible' };
-  const ahora = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+  if (pro.disponible_24h)
+    return { status: '24h', label: '24h', schedule: 'Siempre disponible' };
+  const ahora = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }),
+  );
   const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
-  const inicio = parseInt(String(pro.horario_inicio || '09:00').split(':')[0]) * 60 +
+  const inicio =
+    parseInt(String(pro.horario_inicio || '09:00').split(':')[0]) * 60 +
     parseInt(String(pro.horario_inicio || '09:00').split(':')[1] || '0');
-  const fin = parseInt(String(pro.horario_fin || '18:00').split(':')[0]) * 60 +
+  const fin =
+    parseInt(String(pro.horario_fin || '18:00').split(':')[0]) * 60 +
     parseInt(String(pro.horario_fin || '18:00').split(':')[1] || '0');
   const abierto = horaActual >= inicio && horaActual < fin;
   return {
@@ -87,14 +136,18 @@ function StatusBadge({ pro }) {
   const [expanded, setExpanded] = useState(false);
   const [estado, setEstado] = useState(null);
 
-  useEffect(() => { setEstado(getEstadoDisponibilidad(pro)); }, [pro]);
+  useEffect(() => {
+    setEstado(getEstadoDisponibilidad(pro));
+  }, [pro]);
   if (!estado) return null;
 
-  const scheduleLines = estado.schedule ? estado.schedule.split('|').map(s => s.trim()) : [];
+  const scheduleLines = estado.schedule
+    ? estado.schedule.split('|').map(s => s.trim())
+    : [];
 
   if (estado.status === '24h') {
     return (
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex shrink-0 items-center gap-2">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold text-[#1D4ED8]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#1D4ED8] animate-pulse" />
           24h
@@ -103,38 +156,51 @@ function StatusBadge({ pro }) {
     );
   }
 
-  const pillClasses = estado.status === 'open'
-    ? 'bg-[#F0FDF4] text-[#15803D]'
-    : 'bg-[#FEF2F2] text-[#DC2626]';
+  const pillClasses =
+    estado.status === 'open'
+      ? 'bg-[#F0FDF4] text-[#15803D]'
+      : 'bg-[#FEF2F2] text-[#DC2626]';
 
-  const dotClasses = estado.status === 'open'
-    ? 'bg-[#15803D]'
-    : 'bg-[#DC2626]';
+  const dotClasses =
+    estado.status === 'open' ? 'bg-[#15803D]' : 'bg-[#DC2626]';
 
   const label = estado.status === 'open' ? 'Abierto' : 'Cerrado';
 
   return (
-    <div className="flex flex-col items-end shrink-0 gap-1">
-      <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${pillClasses}`}>
+    <div className="flex shrink-0 flex-col items-end gap-1">
+      <span
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${pillClasses}`}
+      >
         <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`} />
         {label}
       </span>
 
       {/* Ver horario colapsable solo en móvil */}
       {scheduleLines.length > 0 && (
-        <div className="sm:hidden flex flex-col items-end">
+        <div className="flex flex-col items-end sm:hidden">
           <button
             onClick={() => setExpanded(prev => !prev)}
-            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#F97316] hover:text-[#EA580C] transition-colors py-0.5 px-1 -mr-1"
+            className="inline-flex items-center gap-1 py-0.5 px-1 text-[11px] font-medium text-[#F97316] transition-colors hover:text-[#EA580C] -mr-1"
           >
             Ver horario
-            <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              className={`h-3 w-3 transition-transform duration-300 ${
+                expanded ? 'rotate-180' : ''
+              }`}
+            />
           </button>
 
-          <div className={`overflow-hidden transition-all duration-300 ease-out ${expanded ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-            <div className="rounded-lg bg-[#F9FAFB] border border-[#E5E7EB] px-3 py-2 mt-0.5">
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-out ${
+              expanded ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="mt-0.5 rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2">
               {scheduleLines.map((line, i) => (
-                <p key={i} className="text-[11px] text-[#6B7280] text-right leading-relaxed whitespace-nowrap">
+                <p
+                  key={i}
+                  className="text-right text-[11px] leading-relaxed text-[#6B7280] whitespace-normal break-words"
+                >
                   {line}
                 </p>
               ))}
@@ -160,29 +226,46 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
   const cardRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const slug = categoriaSlug || pro.categorias?.slug || 'manitas';
-  const catCfg = CATEGORY_ICONS[slug] || { icon: Wrench, color: '#6B7280', bg: '#F9FAFB' };
+  const catCfg =
+    CATEGORY_ICONS[slug] || {
+      icon: Wrench,
+      color: '#6B7280',
+      bg: '#F9FAFB',
+    };
   const IconComponent = catCfg.icon;
-  const catNombre = pro.categorias?.nombre || (slug.charAt(0).toUpperCase() + slug.slice(1));
+  const catNombre =
+    pro.categorias?.nombre || (slug.charAt(0).toUpperCase() + slug.slice(1));
 
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.unobserve(el); } },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1 },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const whatsappUrl = pro.whatsapp && pro.whatsapp.trim() !== ''
-    ? `https://wa.me/34${pro.whatsapp.replace(/\s/g, '')}?text=Hola%20${encodeURIComponent(pro.nombre)}%2C%20te%20contacto%20desde%20CercaPro.`
-    : null;
+  const whatsappUrl =
+    pro.whatsapp && pro.whatsapp.trim() !== ''
+      ? `https://wa.me/34${pro.whatsapp.replace(
+          /\s/g,
+          '',
+        )}?text=Hola%20${encodeURIComponent(
+          pro.nombre,
+        )}%2C%20te%20contacto%20desde%20CercaPro.`
+      : null;
 
   return (
     <div
       ref={cardRef}
-      className="rounded-2xl border bg-card transition-all duration-700 ease-out"
+      className="w-full min-w-0 rounded-2xl border bg-card transition-all duration-700 ease-out"
       style={{
         borderColor: 'var(--color-border, #E5E7EB)',
         boxShadow: '0 2px 12px rgba(30,58,138,0.07)',
@@ -190,34 +273,41 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
         transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
         transitionDelay: isVisible ? `${index * 80}ms` : '0ms',
       }}
-      onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(30,58,138,0.13)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.boxShadow = '0 2px 12px rgba(30,58,138,0.07)';
-        e.currentTarget.style.transform = 'translateY(0)';
-      }}
     >
       {/* Info principal */}
       <div className="p-4 sm:p-6">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4 min-w-0">
-            <div className="h-10 w-10 sm:h-14 sm:w-14 shrink-0 rounded-xl flex items-center justify-center"
-              style={{ background: catCfg.bg }}>
-              <IconComponent style={{ color: catCfg.color }} className="h-5 w-5 sm:h-7 sm:w-7" />
+          <div className="flex min-w-0 items-start gap-4">
+            <div
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14"
+              style={{ background: catCfg.bg }}
+            >
+              <IconComponent
+                style={{ color: catCfg.color }}
+                className="h-5 w-5 sm:h-7 sm:w-7"
+              />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-foreground">{pro.nombre}</h3>
+                <h3 className="truncate text-base font-bold text-foreground sm:text-lg">
+                  {pro.nombre}
+                </h3>
                 <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-2">
-                <span className="inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold"
-                  style={{ background: 'rgba(30,58,138,0.1)', color: '#1E3A8A' }}>
+                <span
+                  className="inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold"
+                  style={{
+                    background: 'rgba(30,58,138,0.1)',
+                    color: '#1E3A8A',
+                  }}
+                >
                   {catNombre}
                 </span>
-                <GoogleStars rating={pro.google_rating} reviewCount={pro.google_reviews} />
+                <GoogleStars
+                  rating={pro.google_rating}
+                  reviewCount={pro.google_reviews}
+                />
               </div>
             </div>
           </div>
@@ -233,18 +323,25 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
 
         {/* Ciudad */}
         <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-          <MapPin className="h-3.5 w-3.5 text-accent shrink-0" />
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-accent" />
           {pro.ciudad}
         </div>
       </div>
 
       {/* Footer contacto */}
-      <div className="border-t border-border px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6 sm:py-4">
         {/* Teléfono */}
         <a
           href={`tel:${pro.telefono?.replace(/\s/g, '')}`}
-          onClick={() => trackEvent('click_telefono', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug, ciudad: pro.ciudad })}
-          className="inline-flex items-center gap-2 text-sm font-bold transition-colors text-primary hover:text-accent"
+          onClick={() =>
+            trackEvent('click_telefono', {
+              profesional_nombre: pro.nombre,
+              id: pro.id,
+              categoria: slug,
+              ciudad: pro.ciudad,
+            })
+          }
+          className="inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-accent"
         >
           <Phone className="h-4 w-4 text-accent" />
           {pro.telefono}
@@ -257,7 +354,14 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackEvent('click_whatsapp', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug, ciudad: pro.ciudad })}
+              onClick={() =>
+                trackEvent('click_whatsapp', {
+                  profesional_nombre: pro.nombre,
+                  id: pro.id,
+                  categoria: slug,
+                  ciudad: pro.ciudad,
+                })
+              }
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors"
               style={{ background: '#25D366' }}
             >
@@ -268,7 +372,13 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
           {pro.email && (
             <a
               href={`mailto:${pro.email}?subject=Solicitud de servicio via CercaPro&body=Hola ${pro.nombre}, te contacto desde CercaPro.`}
-              onClick={() => trackEvent('click_email', { profesional_nombre: pro.nombre, id: pro.id, categoria: slug })}
+              onClick={() =>
+                trackEvent('click_email', {
+                  profesional_nombre: pro.nombre,
+                  id: pro.id,
+                  categoria: slug,
+                })
+              }
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors"
               style={{ background: '#1E3A8A' }}
             >
@@ -283,30 +393,41 @@ function TarjetaProfesional({ pro, categoriaSlug, index }) {
 }
 
 // ─── Componente principal ─────────────────────────────────────────────────────
-export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = true }) {
+export default function ProfesionalesLista({
+  categoriaSlug,
+  mostrarFiltros = true,
+}) {
   const [profesionales, setProfesionales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [ciudadFiltro, setCiudadFiltro] = useState('todas');
   const [ciudades, setCiudades] = useState([]);
+  const [filtrados, setFiltrados] = useState([]);
 
   useEffect(() => {
     async function fetchProfesionales() {
       setLoading(true);
       let query = supabase
         .from('Profesionales')
-        .select('*, categorias(nombre, icono, slug), disponible_24h, horario_inicio, horario_fin, horario_texto, google_rating, google_reviews')
+        .select(
+          '*, categorias(nombre, icono, slug), disponible_24h, horario_inicio, horario_fin, horario_texto, google_rating, google_reviews',
+        )
         .order('nombre');
 
       if (categoriaSlug) {
         const { data: catData } = await supabase
-          .from('categorias').select('id').eq('slug', categoriaSlug).single();
+          .from('categorias')
+          .select('id')
+          .eq('slug', categoriaSlug)
+          .single();
         if (catData) query = query.eq('categoria_id', catData.id);
       }
 
       const { data, error } = await query;
       if (!error && data) {
         setProfesionales(data);
-        const uniqueCiudades = [...new Set(data.map(p => p.ciudad))].filter(Boolean).sort();
+        const uniqueCiudades = [...new Set(data.map(p => p.ciudad))]
+          .filter(Boolean)
+          .sort();
         setCiudades(uniqueCiudades);
       }
       setLoading(false);
@@ -315,31 +436,34 @@ export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = tru
   }, [categoriaSlug]);
 
   // Sort abiertos primero
-  const [filtrados, setFiltrados] = useState([]);
   useEffect(() => {
-    const base = ciudadFiltro === 'todas' ? profesionales : profesionales.filter(p => p.ciudad === ciudadFiltro);
+    const base =
+      ciudadFiltro === 'todas'
+        ? profesionales
+        : profesionales.filter(p => p.ciudad === ciudadFiltro);
     const sorted = [...base].sort((a, b) => {
       const ea = getEstadoDisponibilidad(a);
       const eb = getEstadoDisponibilidad(b);
-      const rank = s => s.status === '24h' ? 0 : s.status === 'open' ? 1 : 2;
+      const rank = s =>
+        s.status === '24h' ? 0 : s.status === 'open' ? 1 : 2;
       return rank(ea) - rank(eb);
     });
     setFiltrados(sorted);
   }, [profesionales, ciudadFiltro]);
 
-  if (loading) return (
-    <div className="flex justify-center py-12">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex justify-center py-12">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
 
   return (
-    <div className="w-full overflow-hidden">
-
+    <div className="w-full overflow-x-hidden">
       {/* Filtro ciudad */}
       {mostrarFiltros && ciudades.length > 1 && (
         <div className="mb-6">
-          <label className="block text-xs font-semibold uppercase tracking-wide mb-2 text-muted-foreground">
+          <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Ciudad
           </label>
           <div className="relative w-full sm:w-64">
@@ -349,9 +473,13 @@ export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = tru
               className="w-full appearance-none rounded-xl border border-border bg-card px-4 py-2.5 pr-10 text-sm font-medium text-foreground"
             >
               <option value="todas">Todas las ciudades</option>
-              {ciudades.map(c => <option key={c} value={c}>{c}</option>)}
+              {ciudades.map(c => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           </div>
         </div>
       )}
@@ -359,19 +487,27 @@ export default function ProfesionalesLista({ categoriaSlug, mostrarFiltros = tru
       {/* Contador */}
       {mostrarFiltros && (
         <p className="mb-5 text-sm text-muted-foreground">
-          <span className="font-semibold text-foreground">{filtrados.length}</span> profesionales encontrados
+          <span className="font-semibold text-foreground">
+            {filtrados.length}
+          </span>{' '}
+          profesionales encontrados
         </p>
       )}
 
       {/* Grid */}
       {filtrados.length === 0 ? (
-        <div className="py-12 text-center rounded-2xl border border-border text-muted-foreground">
+        <div className="rounded-2xl border border-border py-12 text-center text-muted-foreground">
           No hay profesionales en esta ciudad aún.
         </div>
       ) : (
-        <div className="grid gap-5">
+        <div className="grid w-full gap-5">
           {filtrados.map((pro, i) => (
-            <TarjetaProfesional key={pro.id} pro={pro} categoriaSlug={categoriaSlug} index={i} />
+            <TarjetaProfesional
+              key={pro.id}
+              pro={pro}
+              categoriaSlug={categoriaSlug}
+              index={i}
+            />
           ))}
         </div>
       )}
